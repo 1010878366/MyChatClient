@@ -19,7 +19,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint);  //去掉qt自带的标题栏
     //this->setAttribute(Qt::WA_TranslucentBackground);   //使透明生效
 
-
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 LoginWidget::~LoginWidget()

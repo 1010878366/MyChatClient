@@ -37,6 +37,8 @@ private:
     int m_endVal;       //动画结束值
     int m_nextPageIndex;//下一页
 
+    bool m_isAnimating;
+
 private slots:
     void onValueChanged(const QVariant &value);
     void onFinished();

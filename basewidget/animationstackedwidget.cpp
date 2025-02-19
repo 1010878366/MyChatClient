@@ -7,6 +7,7 @@ AnimationStackedWidget::AnimationStackedWidget(QWidget *parent) : QStackedWidget
 {
     // 构造函数实现
     m_nextPageIndex = 0;
+    m_isAnimating=false;
 }
 
 AnimationStackedWidget::~AnimationStackedWidget()
@@ -23,6 +24,8 @@ void AnimationStackedWidget::someVirtualFunction()
 
 void AnimationStackedWidget::paintEvent(QPaintEvent *event)
 {
+    if(m_isAnimating)
+    {
     QPainter p(this);
     QPixmap pix(":/resource/head/head-48.png");
     if (iRotateVal > 0 && iRotateVal <= 90) { //
@@ -67,10 +70,24 @@ void AnimationStackedWidget::paintEvent(QPaintEvent *event)
         p.setTransform(transform);
         p.drawPixmap(-1*width()/2, 0,pix);
     }
+    }
+    else {
+        //QWidget::paintEvent(paintEvent);
+        QWidget::paintEvent(event);
+    }
 }
 void AnimationStackedWidget::animation(int pageIndex)
 {
+    if(m_isAnimating)
+    {
+        return;
+    }
+
     m_nextPageIndex = pageIndex;
+
+    int offsetX = frameRect().width();
+    int offsetY = frameRect().height();
+    widget(pageIndex)->setGeometry(0,0,offsetX,offsetY);
     //propertyName
     QPropertyAnimation *animation = new QPropertyAnimation(this, "rotateVal");
 
@@ -89,6 +106,7 @@ void AnimationStackedWidget::animation(int pageIndex)
     QObject::connect(animation, &QPropertyAnimation::finished, this, &AnimationStackedWidget::onFinished);
 
     currentWidget()->hide();
+    m_isAnimating=true;
     animation->start();
 
 }
@@ -101,9 +119,11 @@ void AnimationStackedWidget::onValueChanged(const QVariant &value)
 
 void AnimationStackedWidget::onFinished()
 {
+    m_isAnimating = false;
     //动画结束
     widget(m_nextPageIndex)->show();
     widget(m_nextPageIndex)->raise();
 
     setCurrentWidget(widget(m_nextPageIndex));
+    repaint();
 }
