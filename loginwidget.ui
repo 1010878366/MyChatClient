@@ -33,7 +33,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QLabel" name="labelWinTitle">
@@ -390,7 +390,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEditHostAddr"/>
+           <widget class="IPLineEdit" name="lineEditHostAddr"/>
           </item>
           <item row="1" column="1">
            <widget class="QLineEdit" name="lineEditHostMsgPort"/>
@@ -465,6 +465,11 @@
    <extends>QStackedWidget</extends>
    <header location="global">animationstackedwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>IPLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">iplineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>
