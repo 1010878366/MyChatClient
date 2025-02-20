@@ -12,10 +12,6 @@ QWidget#widgetWinTitle, QWidget#widgetWinTitle_2 {
 }
 
 QWidget#LoginWidget {
-<<<<<<< HEAD
-=======
-    //background-color: green;
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
     background-color: transparent; /* transparent 默认。 背景颜色为透明。*/
 }
 

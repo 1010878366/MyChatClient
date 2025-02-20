@@ -2,10 +2,7 @@
     <qresource prefix="/">
         <file>resource/background/app.png</file>
         <file>resource/background/ic_picture.png</file>
-<<<<<<< HEAD
         <file>resource/background/logo.jpg</file>
-=======
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
         <file>resource/common/aio_arrow_down.png</file>
         <file>resource/common/aio_arrow_right.png</file>
         <file>resource/common/ic_arrow_down.png</file>
@@ -68,10 +65,6 @@
         <file>resource/images/ic_warning.png</file>
         <file>resource/images/ic_zip.png</file>
         <file>resource/images/robot.png</file>
-<<<<<<< HEAD
-=======
-        <file>resource/background/logo.jpg</file>
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
     </qresource>
     <qresource prefix="/qss">
         <file>resource/qss/default.css</file>

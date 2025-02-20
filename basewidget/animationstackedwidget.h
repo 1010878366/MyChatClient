@@ -17,12 +17,6 @@ public:
     AnimationStackedWidget(QWidget *parent = 0);
     ~AnimationStackedWidget();
 
-<<<<<<< HEAD
-=======
-    // 示例虚函数
-    virtual void someVirtualFunction();
-
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
     void animation(int pageIndex);   //动画效果
 
     float startVal(){return m_startVal;}
@@ -43,11 +37,7 @@ private:
     bool m_isAnimating;
 
 private slots:
-<<<<<<< HEAD
     void onValueChanged();
-=======
-    void onValueChanged(const QVariant &value);
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
     void onFinished();
 
 protected:

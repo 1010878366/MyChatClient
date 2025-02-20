@@ -1,9 +1,4 @@
 QT       += core gui
-<<<<<<< HEAD
-=======
-QT += network
-QT += multimedia
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,18 +20,10 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
 HEADERS += \
     loginwidget.h \
     mainwindow.h
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
 FORMS += \
     loginwidget.ui \
     mainwindow.ui
@@ -50,8 +37,3 @@ RESOURCES += \
     images.qrc
 
 include($$PWD/basewidget/basewidget.pri)
-<<<<<<< HEAD
-=======
-
-DISTFILES +=
->>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
