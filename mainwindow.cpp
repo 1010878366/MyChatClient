@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setWindowFlags(Qt::FramelessWindowHint);
+
     //this->setStyleSheet("QWidget { background-image: url(:/resouse/background/logo.png); background-repeat: no - repeat; background - position: center; }");
 }
 

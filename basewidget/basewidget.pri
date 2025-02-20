@@ -7,6 +7,7 @@ HEADERS += \
     $$PWD/iplineedit.h \
 
 
+
 SOURCES += \
     $$PWD/animationstackedwidget.cpp \
     $$PWD/iplineedit.cpp \

@@ -1,11 +1,14 @@
-#ifndef VOICE_H
+﻿#ifndef VOICE_H
 #define VOICE_H
 
 #include <QObject>
 
-#include "qtts.h"
-#include "msp_cmn.h"
-#include "msp_errors.h"
+//#include "qtts.h"
+#include"media/voice/include/qtts.h"
+//#include "msp_cmn.h"
+#include"media/voice/include/msp_cmn.h"
+//#include "msp_errors.h"
+#include"media/voice/include/msp_errors.h"
 
 
 typedef struct {

@@ -2,7 +2,9 @@
 #define LOGINWIDGET_H
 
 #include <QWidget>
+#include<QFile>
 #include"animationstackedwidget.h"
+#include"mainwindow.h"
 
 namespace Ui {
 class LoginWidget;
@@ -20,6 +22,8 @@ private slots:
     void on_btnWinMenu_clicked();
 
     void on_btnCancel_clicked();
+
+    void on_btnLogin_clicked();
 
 private:
     Ui::LoginWidget *ui;
