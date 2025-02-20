@@ -120,10 +120,7 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
-           <string notr="true">    border: none;
-    background-color: transparent;
-    min-width: 24px;
-    min-height: 24px;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string/>
@@ -140,10 +137,7 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
-           <string notr="true">    border: none;
-    background-color: transparent;
-    min-width: 24px;
-    min-height: 24px;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string/>
@@ -160,10 +154,7 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
-           <string notr="true">    border: none;
-    background-color: transparent;
-    min-width: 24px;
-    min-height: 24px;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string/>
@@ -444,10 +435,7 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
-           <string notr="true">    border: none;
-    background-color: transparent;
-    min-width: 24px;
-    min-height: 24px;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string/>
@@ -464,10 +452,7 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
-           <string notr="true">    border: none;
-    background-color: transparent;
-    min-width: 24px;
-    min-height: 24px;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string/>
@@ -505,9 +490,9 @@
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEditHostAddr">
+                <widget class="IPLineEdit" name="lineEditHostAddr">
                  <property name="text">
-                  <string>127.0.0.1</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -603,6 +588,11 @@
    <extends>QStackedWidget</extends>
    <header location="global">animationstackedwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>IPLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">iplineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

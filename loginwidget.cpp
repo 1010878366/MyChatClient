@@ -1,5 +1,6 @@
 ﻿#include "loginwidget.h"
 #include "ui_loginwidget.h"
+#include"mainwindow.h"
 
 LoginWidget::LoginWidget(QWidget *parent) :
     QWidget(parent),
@@ -39,4 +40,12 @@ void LoginWidget::on_btnCancel_clicked()
     ui->stackedWidget->setstartVal(0);
     ui->stackedWidget->setendVal(-180);
     ui->stackedWidget->animation(0);
+}
+
+void LoginWidget::on_btnLogin_clicked()
+{
+    MainWindow *mainWindow=new MainWindow;
+    mainWindow->show();
+
+    this->hide();   //登录窗口隐藏
 }
