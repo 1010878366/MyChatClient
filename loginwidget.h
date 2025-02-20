@@ -2,10 +2,13 @@
 #define LOGINWIDGET_H
 
 #include "customwidget.h"
-//#include "clientsocket.h"
+#include "clientsocket.h"
 #include "mainwindow.h"
 #include <QWidget>
 #include<QFile>
+//#include"databasemagr.h"
+#include <QJsonObject>
+#include <QJsonDocument>
 
 namespace Ui {
 class LoginWidget;
@@ -33,7 +36,7 @@ private slots:
 private:
     Ui::LoginWidget *ui;
 
-
+    ClientSocket *m_tcpSocket;
 };
 
 #endif // LOGINWIDGET_H

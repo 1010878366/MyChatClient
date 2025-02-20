@@ -24,6 +24,11 @@ LoginWidget::LoginWidget(QWidget *parent) :
     //给lineEditUser添加图片
     ui->lineEditUser->SetIcon(QPixmap(":/resource/common/ic_user.png"));
     ui->lineEditPasswd->SetIcon(QPixmap(":/resource/common/ic_lock.png"));
+
+    m_tcpSocket=new ClientSocket;
+
+
+
 }
 
 LoginWidget::~LoginWidget()
@@ -47,8 +52,21 @@ void LoginWidget::on_btnCancel_clicked()
 
 void LoginWidget::on_btnLogin_clicked()
 {
+    m_tcpSocket->CheckConnected();  //检查是否连接到服务器
+
+    QString username = ui->lineEditUser->text();
+    QString passwd = ui->lineEditPasswd->text();
+
+    //构建JSON对象
+    QJsonObject json;
+    json.insert("name",username);
+    json.insert("passwd",passwd);
+
+    m_tcpSocket->SltSendMessage(0x11,json);
+    /*
     MainWindow *mainWindow=new MainWindow;
     mainWindow->show();
 
     this->hide();   //登录窗口隐藏
+    */
 }
