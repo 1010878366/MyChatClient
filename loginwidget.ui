@@ -6,8 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
+<<<<<<< HEAD
     <width>414</width>
     <height>320</height>
+=======
+    <width>388</width>
+    <height>304</height>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,12 +20,21 @@
   </property>
   <property name="windowIcon">
    <iconset resource="images.qrc">
+<<<<<<< HEAD
     <normaloff>:/resource/background/app.png</normaloff>:/resource/background/app.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget#page, QWidget#page_2 {
 	border: 1px solid #A5A6A8;
 	border-radius: 4px;
+=======
+    <normaloff>:/resource/ico/app.ico</normaloff>:/resource/ico/app.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#page, QWidget#page_2 {
+    border: 1px solid #A5A6A8;
+    border-radius: 4px;
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
 }</string>
   </property>
   <widget class="AnimationStackedWidget" name="stackedWidget">
@@ -36,7 +50,11 @@
     <number>1</number>
    </property>
    <widget class="QWidget" name="page">
+<<<<<<< HEAD
     <layout class="QVBoxLayout" name="verticalLayout_2">
+=======
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
      <property name="spacing">
       <number>0</number>
      </property>
@@ -53,7 +71,11 @@
       <number>1</number>
      </property>
      <item>
+<<<<<<< HEAD
       <widget class="QWidget" name="widgetWinTitle" native="true">
+=======
+      <widget class="QWidget" name="widgetWinTitle_2" native="true">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -66,7 +88,11 @@
          <height>30</height>
         </size>
        </property>
+<<<<<<< HEAD
        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1,0,0,0">
+=======
+       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0,1,0,0,0">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
         <property name="spacing">
          <number>2</number>
         </property>
@@ -105,7 +131,11 @@
          </widget>
         </item>
         <item>
+<<<<<<< HEAD
          <widget class="QLabel" name="labelWinTitle">
+=======
+         <widget class="QLabel" name="labelWinTitle_2">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           <property name="styleSheet">
            <string notr="true">color: #FFFFFF;</string>
           </property>
@@ -120,10 +150,14 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
+<<<<<<< HEAD
            <string notr="true">    border: none;
     background-color: transparent;
     min-width: 24px;
     min-height: 24px;</string>
+=======
+           <string notr="true">background-color: transparent; border: none;</string>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           </property>
           <property name="text">
            <string/>
@@ -140,10 +174,14 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
+<<<<<<< HEAD
            <string notr="true">    border: none;
     background-color: transparent;
     min-width: 24px;
     min-height: 24px;</string>
+=======
+           <string notr="true">background-color: transparent; border: none;</string>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           </property>
           <property name="text">
            <string/>
@@ -160,10 +198,14 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
+<<<<<<< HEAD
            <string notr="true">    border: none;
     background-color: transparent;
     min-width: 24px;
     min-height: 24px;</string>
+=======
+           <string notr="true">background-color: transparent; border: none;</string>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           </property>
           <property name="text">
            <string/>
@@ -209,7 +251,11 @@
          </widget>
         </item>
         <item>
+<<<<<<< HEAD
          <layout class="QVBoxLayout" name="verticalLayout_4">
+=======
+         <layout class="QVBoxLayout" name="verticalLayout">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           <property name="spacing">
            <number>10</number>
           </property>
@@ -226,7 +272,11 @@
            <number>20</number>
           </property>
           <item>
+<<<<<<< HEAD
            <layout class="QHBoxLayout" name="horizontalLayout_4">
+=======
+           <layout class="QHBoxLayout" name="horizontalLayout">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
             <property name="spacing">
              <number>15</number>
             </property>
@@ -262,7 +312,11 @@
             </item>
             <item>
              <widget class="QWidget" name="widgetInput" native="true">
+<<<<<<< HEAD
               <layout class="QVBoxLayout" name="verticalLayout_3">
+=======
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -326,7 +380,11 @@
                 </widget>
                </item>
                <item>
+<<<<<<< HEAD
                 <layout class="QHBoxLayout" name="horizontalLayout">
+=======
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
                  <item>
                   <widget class="QCheckBox" name="checkBoxPasswd">
                    <property name="text">
@@ -399,7 +457,11 @@
       <number>1</number>
      </property>
      <item>
+<<<<<<< HEAD
       <widget class="QWidget" name="widgetWinTitle_2" native="true">
+=======
+      <widget class="QWidget" name="widgetWinTitle" native="true">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -412,7 +474,11 @@
          <height>30</height>
         </size>
        </property>
+<<<<<<< HEAD
        <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0,0">
+=======
+       <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,0,0">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
         <property name="spacing">
          <number>5</number>
         </property>
@@ -429,7 +495,11 @@
          <number>0</number>
         </property>
         <item>
+<<<<<<< HEAD
          <widget class="QLabel" name="labelWinTitle_2">
+=======
+         <widget class="QLabel" name="labelWinTitle">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           <property name="styleSheet">
            <string notr="true">color: #FFFFFF;</string>
           </property>
@@ -444,10 +514,14 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
+<<<<<<< HEAD
            <string notr="true">    border: none;
     background-color: transparent;
     min-width: 24px;
     min-height: 24px;</string>
+=======
+           <string notr="true">background-color: transparent; border: none;</string>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           </property>
           <property name="text">
            <string/>
@@ -464,10 +538,14 @@
            <enum>Qt::NoFocus</enum>
           </property>
           <property name="styleSheet">
+<<<<<<< HEAD
            <string notr="true">    border: none;
     background-color: transparent;
     min-width: 24px;
     min-height: 24px;</string>
+=======
+           <string notr="true">background-color: transparent; border: none;</string>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           </property>
           <property name="text">
            <string/>
@@ -483,13 +561,21 @@
      </item>
      <item>
       <widget class="QWidget" name="widgetBody_2" native="true">
+<<<<<<< HEAD
        <layout class="QVBoxLayout" name="verticalLayout_6">
+=======
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
         <item>
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
            <string>服务器设置</string>
           </property>
+<<<<<<< HEAD
           <layout class="QVBoxLayout" name="verticalLayout_7">
+=======
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <property name="rightMargin">
@@ -498,21 +584,35 @@
              <item>
               <layout class="QFormLayout" name="formLayout">
                <item row="0" column="0">
+<<<<<<< HEAD
                 <widget class="QLabel" name="label_3">
+=======
+                <widget class="QLabel" name="label_6">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
                  <property name="text">
                   <string>服务器地址配置：</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
+<<<<<<< HEAD
                 <widget class="QLineEdit" name="lineEditHostAddr">
                  <property name="text">
                   <string>127.0.0.1</string>
+=======
+                <widget class="IPLineEdit" name="lineEditHostAddr">
+                 <property name="text">
+                  <string/>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
                  </property>
                 </widget>
                </item>
                <item row="1" column="0">
+<<<<<<< HEAD
                 <widget class="QLabel" name="label_4">
+=======
+                <widget class="QLabel" name="label_7">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
                  <property name="text">
                   <string>消息服务器端口：</string>
                  </property>
@@ -521,12 +621,20 @@
                <item row="1" column="1">
                 <widget class="QLineEdit" name="lineEditHostMsgPort">
                  <property name="text">
+<<<<<<< HEAD
                   <string>6001</string>
+=======
+                  <string>3001</string>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
                  </property>
                 </widget>
                </item>
                <item row="2" column="0">
+<<<<<<< HEAD
                 <widget class="QLabel" name="label_5">
+=======
+                <widget class="QLabel" name="label_8">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
                  <property name="text">
                   <string>文件服务器端口：</string>
                  </property>
@@ -535,7 +643,11 @@
                <item row="2" column="1">
                 <widget class="QLineEdit" name="lineEditHostFilePort">
                  <property name="text">
+<<<<<<< HEAD
                   <string>6002</string>
+=======
+                  <string>3002</string>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
                  </property>
                 </widget>
                </item>
@@ -560,7 +672,11 @@
          </widget>
         </item>
         <item>
+<<<<<<< HEAD
          <layout class="QHBoxLayout" name="horizontalLayout_7">
+=======
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
           <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
@@ -604,6 +720,14 @@
    <header location="global">animationstackedwidget.h</header>
    <container>1</container>
   </customwidget>
+<<<<<<< HEAD
+=======
+  <customwidget>
+   <class>IPLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">iplineedit.h</header>
+  </customwidget>
+>>>>>>> ef25af80c77988ad285a418bbaf9f51f75c71c52
  </customwidgets>
  <resources>
   <include location="images.qrc"/>
