@@ -1,7 +1,7 @@
 ﻿#ifndef LOGINWIDGET_H
 #define LOGINWIDGET_H
 
-//#include "customwidget.h"
+#include "customwidget.h"
 //#include "clientsocket.h"
 #include "mainwindow.h"
 #include <QWidget>
@@ -14,7 +14,7 @@ class LoginWidget;
 /////////////////////////////////////////////////////////////////////////
 /// \brief The LoginWidget class
 /// 登陆界面设计
-class LoginWidget : public QWidget
+class LoginWidget : public CustomMoveWidget
 {
     Q_OBJECT
 

@@ -1,4 +1,4 @@
-﻿#ifndef CUSTOMWIDGET_H
+#ifndef CUSTOMWIDGET_H
 #define CUSTOMWIDGET_H
 
 #include <QWidget>

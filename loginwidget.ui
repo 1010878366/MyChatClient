@@ -267,7 +267,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLineEdit" name="lineEditUser">
+                <widget class="QIconLineEdit" name="lineEditUser">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -292,7 +292,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEditPasswd">
+                <widget class="QIconLineEdit" name="lineEditPasswd">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -490,9 +490,9 @@
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="IPLineEdit" name="lineEditHostAddr">
+                <widget class="QIPLineEdit" name="lineEditHostAddr">
                  <property name="text">
-                  <string/>
+                  <string>127.0.0.1</string>
                  </property>
                 </widget>
                </item>
@@ -590,9 +590,14 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>IPLineEdit</class>
+   <class>QIconLineEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">iplineedit.h</header>
+   <header location="global">clineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QIPLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">clineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

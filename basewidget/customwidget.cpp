@@ -1,7 +1,4 @@
-﻿#include "customwidget.h"
-#include "myapp.h"
-#include "global.h"
-#include "testmedia.h"
+#include "customwidget.h"
 
 #include <QStyleOption>
 #include <QPainter>
@@ -62,13 +59,14 @@ void CustomMoveWidget::mouseMoveEvent(QMouseEvent *e)
     if (m_mousePressed && (e->buttons() && Qt::LeftButton)) {
         this->move(e->globalPos() - mousePoint);
         e->accept();
-/*
+
+        /*
         if ("MainWindow" == this->objectName()) {
             QPoint pos = e->globalPos() - mousePoint;
-            MyApp::m_nWinX = pos.x();
-            MyApp::m_nWinY = pos.y();
+            //MyApp::m_nWinX = pos.x();
+            //MyApp::m_nWinY = pos.y();
         }
-*/
+        */
     }
 }
 
@@ -325,7 +323,7 @@ void CMessageBox::StartTimer()
 int CMessageBox::Infomation(QWidget *parent, const QString &content, const QString &title)
 {
     // 播放提示音
-    TestMedia::Instance()->playWav(MyApp::m_strSoundPath + "ringin.wav");
+    //TestMedia::Instance()->playWav(MyApp::m_strSoundPath + "ringin.wav");
 
     // 创建对话框
     CMessageBox *messageBox = new CMessageBox(parent);
@@ -345,7 +343,7 @@ int CMessageBox::Infomation(QWidget *parent, const QString &content, const QStri
 int CMessageBox::Question(QWidget *parent, const QString &content, const QString &title)
 {
     // 播放提示音
-    TestMedia::Instance()->playWav(MyApp::m_strSoundPath + "ringin.wav");
+    //TestMedia::Instance()->playWav(MyApp::m_strSoundPath + "ringin.wav");
 
     CMessageBox *messageBox = new CMessageBox(parent);
     messageBox->ShowMessage(content, CMessageBox::E_Question, title);
@@ -362,7 +360,7 @@ int CMessageBox::Question(QWidget *parent, const QString &content, const QString
 int CMessageBox::Warning(QWidget *parent, const QString &content, const QString &title)
 {
     // 播放提示音
-    TestMedia::Instance()->playWav(MyApp::m_strSoundPath + "ringin.wav");
+    //TestMedia::Instance()->playWav(MyApp::m_strSoundPath + "ringin.wav");
 
     CMessageBox *messageBox = new CMessageBox(parent);
     messageBox->ShowMessage(content, CMessageBox::E_Warning, title);
