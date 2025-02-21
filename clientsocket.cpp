@@ -1,4 +1,4 @@
-#include "clientsocket.h"
+﻿#include "clientsocket.h"
 #include "databasemagr.h"
 
 #include <QFile>
@@ -146,5 +146,29 @@ void ClientSocket::SltConnected()
  */
 void ClientSocket::SltReadyRead()
 {
+    QByteArray byRead = m_tcpSocket->readAll();
+    QJsonParseError jsonError;
+    //转换为JSON文档
+    QJsonDocument document = QJsonDocument::fromJson(byRead,&jsonError);
+
+    //解析未发生错误
+    if(!document.isNull() && (jsonError.error == QJsonParseError::NoError))
+    {
+        //json文档对象
+        if(document.isObject())
+        {
+            //转化为对象
+            QJsonObject jsonObj = document.object();
+            QJsonValue dataVal = jsonObj.value("data");
+            int nFrom = jsonObj.value("from").toInt();
+            int nType = jsonObj.value("type").toInt();
+
+            if(nType == 17)
+            {
+                //qDebug()<<""
+            }
+        }
+    }
+
 
 }

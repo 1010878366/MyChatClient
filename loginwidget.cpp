@@ -70,3 +70,8 @@ void LoginWidget::on_btnLogin_clicked()
     this->hide();   //登录窗口隐藏
     */
 }
+
+void LoginWidget::on_btnWinClose_clicked()
+{
+    close();
+}

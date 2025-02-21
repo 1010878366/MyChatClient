@@ -33,6 +33,8 @@ private slots:
 
     void on_btnLogin_clicked();
 
+    void on_btnWinClose_clicked();
+
 private:
     Ui::LoginWidget *ui;
 
