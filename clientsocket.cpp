@@ -7,7 +7,7 @@
 #include <QDataStream>
 #include <QApplication>
 
-#define SERVER_IP "192.168.2.199"
+#define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 60100
 
 ClientSocket::ClientSocket(QObject *parent) :
@@ -118,6 +118,7 @@ void ClientSocket::SltSendMessage(const quint8 &type, const QJsonValue &dataVal)
     // 构建 Json 文档
     QJsonDocument document;
     document.setObject(json);
+
     qDebug() << "m_tcpSocket->write:" << document.toJson(QJsonDocument::Compact);
     m_tcpSocket->write(document.toJson(QJsonDocument::Compact));
 }
@@ -137,6 +138,7 @@ void ClientSocket::SltDisconnected()
 void ClientSocket::SltConnected()
 {
     qDebug() << "has connecetd";
+    emit signalStatus(0x01);
 }
 
 
@@ -163,12 +165,47 @@ void ClientSocket::SltReadyRead()
             int nFrom = jsonObj.value("from").toInt();
             int nType = jsonObj.value("type").toInt();
 
-            if(nType == 17)
+            switch(nType)
             {
-                //qDebug()<<""
+            case 0x10:
+                //注册
+                break;
+
+            case 0x11:      //nType == 17
+                //登录
+                ParseLogin(dataVal);
+                break;
             }
         }
     }
+}
 
+void ClientSocket::ParseLogin(const QJsonValue dataVal)
+{
+    QJsonObject dataObj = dataVal.toObject();
+    int id = dataObj.value("id").toInt();
+    int code = dataObj.value("code").toInt();
+    QString msg = dataObj.value("msg").toString();
+    if(code == -2)
+    {
+        qDebug()<<"用户已在线";
+        emit signalStatus(0x13);
+        m_nId=id;
+    }
+    else if(code == -1)
+    {
+        qDebug()<<"用户未注册";
+        emit signalStatus(0x04);
+        m_nId=id;
+    }
+    else if(code == 0 && msg == "ok")
+    {
+        qDebug()<<"登录成功！";
+        emit signalStatus(0x03);
 
+    }
+    else
+    {
+        qDebug()<<"ERR：登录失败！";
+    }
 }

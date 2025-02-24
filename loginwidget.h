@@ -6,9 +6,10 @@
 #include "mainwindow.h"
 #include <QWidget>
 #include<QFile>
-//#include"databasemagr.h"
+#include"databasemagr.h"
 #include <QJsonObject>
 #include <QJsonDocument>
+#include<QDebug>
 
 namespace Ui {
 class LoginWidget;
@@ -34,6 +35,13 @@ private slots:
     void on_btnLogin_clicked();
 
     void on_btnWinClose_clicked();
+
+    void onSignalMessage(const quint8 &type,const QJsonValue &dataVal);
+    void onSignalStatus(const quint8 &state);
+
+private:
+    //登录
+    void ParseLogin(const QJsonValue dataVal);
 
 private:
     Ui::LoginWidget *ui;

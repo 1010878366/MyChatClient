@@ -26,9 +26,10 @@ LoginWidget::LoginWidget(QWidget *parent) :
     ui->lineEditPasswd->SetIcon(QPixmap(":/resource/common/ic_lock.png"));
 
     m_tcpSocket=new ClientSocket;
+    connect(m_tcpSocket,&ClientSocket::signalMessage,this,&LoginWidget::onSignalMessage);
+    connect(m_tcpSocket,&ClientSocket::signalStatus,this,&LoginWidget::onSignalStatus);
 
-
-
+    m_tcpSocket->CheckConnected();  //检查是否连接到服务器
 }
 
 LoginWidget::~LoginWidget()
@@ -52,8 +53,6 @@ void LoginWidget::on_btnCancel_clicked()
 
 void LoginWidget::on_btnLogin_clicked()
 {
-    m_tcpSocket->CheckConnected();  //检查是否连接到服务器
-
     QString username = ui->lineEditUser->text();
     QString passwd = ui->lineEditPasswd->text();
 
@@ -75,3 +74,37 @@ void LoginWidget::on_btnWinClose_clicked()
 {
     close();
 }
+
+void LoginWidget::onSignalMessage(const quint8 &type,const QJsonValue &dataVal)
+{
+
+}
+
+void LoginWidget::onSignalStatus(const quint8 &state)
+{
+    switch(state)
+    {
+    case 0x01:
+        ui->labelWinTitle->setText("已连接服务器");
+        break;
+    case 0x03:  //用户登录成功
+    {
+        qDebug()<<"用户登录成功！";
+
+        MainWindow *mainWindow=new MainWindow;
+        mainWindow->show();
+        this->hide();   //登录窗口隐藏
+    }
+        break;
+    case 0x04:  //用户未注册
+        qDebug()<<"用户未注册！";
+        break;
+    case 0x13:  //用户已在线
+        qDebug()<<"用户已在线！";
+        break;
+
+    }
+
+}
+
+
