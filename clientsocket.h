@@ -20,7 +20,7 @@ public:
     void SetUserId(const int &id);
 
     void CheckConnected();
-    void ColseConnected();
+    void CloseConnected();
 
     // 连接服务器
     void ConnectToHost(const QString &host, const int &port);

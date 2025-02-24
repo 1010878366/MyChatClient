@@ -314,7 +314,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStackedWidget" name="GCStackedWidget">
+  <widget class="ChatStackedWidget" name="GCStackedWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -951,6 +951,14 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ChatStackedWidget</class>
+   <extends>QStackedWidget</extends>
+   <header location="global">chatstackedwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="images.qrc"/>
  </resources>

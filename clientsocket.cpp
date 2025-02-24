@@ -61,7 +61,7 @@ void ClientSocket::CheckConnected()
  * @brief ClientSocket::ColseConnected
  * 主动断开连接
  */
-void ClientSocket::ColseConnected()
+void ClientSocket::CloseConnected()
 {
     if (m_tcpSocket->isOpen()) {
         m_tcpSocket->abort();

@@ -29,6 +29,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
     ui->lineEditUser->SetIcon(QPixmap(":/resource/common/ic_user.png"));
     ui->lineEditPasswd->SetIcon(QPixmap(":/resource/common/ic_lock.png"));
 
+    ui->labelWinTitle->setText("用户登录");
     m_tcpSocket=new ClientSocket;
     connect(m_tcpSocket,&ClientSocket::signalMessage,this,&LoginWidget::onSignalMessage);
     connect(m_tcpSocket,&ClientSocket::signalStatus,this,&LoginWidget::onSignalStatus);
@@ -93,9 +94,12 @@ void LoginWidget::onSignalStatus(const quint8 &state)
         break;
     case LoginSuccess:  //用户登录成功
     {
+        disconnect(m_tcpSocket, &ClientSocket::signalMessage, this, &LoginWidget::onSignalMessage);
+        disconnect(m_tcpSocket, &ClientSocket::signalStatus, this, &LoginWidget::onSignalStatus);
         qDebug()<<"用户登录成功！";
 
         MainWindow *mainWindow=new MainWindow;
+        mainWindow->SetSocket(m_tcpSocket,ui->lineEditUser->text());
         mainWindow->show();
         this->hide();   //登录窗口隐藏
     }
