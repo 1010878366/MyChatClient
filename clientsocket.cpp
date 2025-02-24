@@ -6,9 +6,11 @@
 #include <QHostAddress>
 #include <QDataStream>
 #include <QApplication>
+#include"unit.h"
+#include"myapp.h"
 
-#define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 60100
+//#define SERVER_IP "127.0.0.1"
+//#define SERVER_PORT 60100
 
 ClientSocket::ClientSocket(QObject *parent) :
     QObject(parent)
@@ -50,7 +52,8 @@ void ClientSocket::CheckConnected()
 {
     if (m_tcpSocket->state() != QTcpSocket::ConnectedState)
     {
-        m_tcpSocket->connectToHost(QString(SERVER_IP), SERVER_PORT);
+        m_tcpSocket->connectToHost(MyApp::m_strHostAddr, MyApp::m_nMsgPort);
+
     }
 }
 
@@ -101,7 +104,7 @@ void ClientSocket::SltSendMessage(const quint8 &type, const QJsonValue &dataVal)
 {
     // 连接服务器
     if (!m_tcpSocket->isOpen()) {
-        m_tcpSocket->connectToHost(QString(SERVER_IP), SERVER_PORT);
+        m_tcpSocket->connectToHost(MyApp::m_strHostAddr, MyApp::m_nMsgPort);
         m_tcpSocket->waitForConnected(1000);
     }
     // 超时1s后还是连接不上，直接返回
@@ -138,7 +141,7 @@ void ClientSocket::SltDisconnected()
 void ClientSocket::SltConnected()
 {
     qDebug() << "has connecetd";
-    emit signalStatus(0x01);
+    emit signalStatus(ConnectedHost);
 }
 
 
@@ -167,11 +170,11 @@ void ClientSocket::SltReadyRead()
 
             switch(nType)
             {
-            case 0x10:
+            case Register:
                 //注册
                 break;
 
-            case 0x11:      //nType == 17
+            case Login:
                 //登录
                 ParseLogin(dataVal);
                 break;
@@ -195,13 +198,13 @@ void ClientSocket::ParseLogin(const QJsonValue dataVal)
     else if(code == -1)
     {
         qDebug()<<"用户未注册";
-        emit signalStatus(0x04);
+        emit signalStatus(LoginRepeat);
         m_nId=id;
     }
     else if(code == 0 && msg == "ok")
     {
         qDebug()<<"登录成功！";
-        emit signalStatus(0x03);
+        emit signalStatus(LoginSuccess);
 
     }
     else

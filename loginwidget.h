@@ -10,6 +10,8 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include<QDebug>
+#include"unit.h"
+#include"global.h"
 
 namespace Ui {
 class LoginWidget;

@@ -11,6 +11,7 @@ LoginWidget::LoginWidget(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
 
+    /*
     //设置QSS
     QFile file(":/qss/resource/qss/default.css");
     file.open(QIODevice::ReadOnly);
@@ -18,6 +19,9 @@ LoginWidget::LoginWidget(QWidget *parent) :
     //设置样式表
     qApp->setStyleSheet(file.readAll());
     file.close();
+    */
+    //设置样式
+    myHelper::setStyle("default");
 
     ui->stackedWidget->setCurrentIndex(0);
 
@@ -87,7 +91,7 @@ void LoginWidget::onSignalStatus(const quint8 &state)
     case 0x01:
         ui->labelWinTitle->setText("已连接服务器");
         break;
-    case 0x03:  //用户登录成功
+    case LoginSuccess:  //用户登录成功
     {
         qDebug()<<"用户登录成功！";
 
@@ -96,10 +100,10 @@ void LoginWidget::onSignalStatus(const quint8 &state)
         this->hide();   //登录窗口隐藏
     }
         break;
-    case 0x04:  //用户未注册
-        qDebug()<<"用户未注册！";
+    case LoginPasswdError:
+        qDebug()<<"用户密码错误！";
         break;
-    case 0x13:  //用户已在线
+    case LoginRepeat:  //用户已在线
         qDebug()<<"用户已在线！";
         break;
 
