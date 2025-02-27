@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/aio_arrow_down.png</file>
+        <file>images/aio_arrow_right.png</file>
+        <file>images/head.bmp</file>
+    </qresource>
+</RCC>
