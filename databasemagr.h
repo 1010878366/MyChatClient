@@ -33,6 +33,8 @@ public:
         return self;
     }
 
+    bool isMyFriend(const int &userId,const QString &name);
+
 
 signals:
 

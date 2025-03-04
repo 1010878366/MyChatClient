@@ -44,3 +44,13 @@ bool DataBaseMagr::OpenUserDb(const QString &dataName)
 
     return true;
 }
+
+bool DataBaseMagr::isMyFriend(const int &userId,const QString &name)
+{
+    QString strQuery = "SELECT [id] FROM FRIEND";
+    strQuery.append(QString("WHERE NAME = %1").arg(name));
+    strQuery.append(QString(" AND userId = %1").arg(QString::number(userId)));
+    QSqlQuery query(strQuery,userdb);
+    /*return */query.next();
+
+}

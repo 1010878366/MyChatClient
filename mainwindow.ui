@@ -399,7 +399,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="frindListWidget_2" native="true"/>
+      <widget class="QQListWidget" name="frindListWidget_2" native="true"/>
      </item>
     </layout>
    </widget>
@@ -473,7 +473,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="groupListWidget_2" native="true"/>
+      <widget class="QQListWidget" name="groupListWidget_2" native="true"/>
      </item>
     </layout>
    </widget>
@@ -547,7 +547,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="convationListWidget_2" native="true"/>
+      <widget class="QQListWidget" name="convationListWidget_2" native="true"/>
      </item>
     </layout>
    </widget>
@@ -621,7 +621,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="widget_6" native="true"/>
+      <widget class="QQListWidget" name="widget_6" native="true"/>
      </item>
     </layout>
    </widget>
@@ -956,6 +956,12 @@
    <class>ChatStackedWidget</class>
    <extends>QStackedWidget</extends>
    <header location="global">chatstackedwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QQListWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">qqlist\qqlistwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

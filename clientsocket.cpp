@@ -174,6 +174,9 @@ void ClientSocket::SltReadyRead()
                 //注册
                 break;
 
+            case AddFriend:
+                emit signalMessage(AddFriend,dataVal);
+
             case Login:
                 //登录
                 ParseLogin(dataVal);
@@ -192,17 +195,19 @@ void ClientSocket::ParseLogin(const QJsonValue dataVal)
     if(code == -2)
     {
         qDebug()<<"用户已在线";
-        emit signalStatus(0x13);
+        emit signalStatus(LoginRepeat);
         m_nId=id;
     }
     else if(code == -1)
     {
         qDebug()<<"用户未注册";
-        emit signalStatus(LoginRepeat);
-        m_nId=id;
+        emit signalStatus(LoginPasswdError);
+
     }
     else if(code == 0 && msg == "ok")
     {
+        m_nId=id;
+        MyApp::m_nId = id;
         qDebug()<<"登录成功！";
         emit signalStatus(LoginSuccess);
 
