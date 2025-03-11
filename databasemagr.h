@@ -3,9 +3,10 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include <QJsonArray>
 #include <QSqlQuery>
 #include <QMutex>
+#include <QJsonArray>
+#include "iteminfo.h"
 
 
 /// 客户端数据库管理类
@@ -18,6 +19,9 @@ private:
 
 public:
     bool OpenUserDb(const QString &dataName);
+    bool OpenMessageDb(const QString &dataName);
+
+    void AddHistoryMsg(const int &userId, ItemInfo *itemInfo);
 
     // 单实例运行
     static DataBaseMagr *Instance()
@@ -34,10 +38,19 @@ public:
         return self;
     }
 
-    bool isMyFriend(const int &userId,const QString &name);
-    QJsonArray GetMyFriend(const int &userId);
-    void AddFriend(const int &friendId,const int &userId,const QString &name);
 
+    bool isMyFriend(const int &userId, const QString &name);
+    QJsonArray GetMyFriend(const int &userId);
+    void AddFriend(const int &friendId, const int &userId, const QString &name);
+
+    // 获取历史聊天记录
+    QVector<ItemInfo *> QueryHistory(const int &id, const int &count = 0);
+
+
+    // 添加群组
+    void AddGroup(const int &id, const int &userId, const QString &name);
+
+    QJsonArray GetMyGroup(const int &userId) const;
 
 signals:
 
@@ -48,6 +61,7 @@ private:
 
     // 数据库管理
     QSqlDatabase userdb;
+    QSqlDatabase msgdb;
 };
 
 #endif // DATABASEMAGR_H

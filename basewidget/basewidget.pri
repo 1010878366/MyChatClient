@@ -3,6 +3,7 @@ DEPENDPATH      += $$PWD
 
 HEADERS += \
     $$PWD/animationstackedwidget.h \
+    $$PWD/chatbubble.h \
     $$PWD/customwidget.h \
     $$PWD/clineedit.h \
     $$PWD/chatstackedwidget.h \
@@ -14,6 +15,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/animationstackedwidget.cpp \
+    $$PWD/chatbubble.cpp \
     $$PWD/customwidget.cpp \
     $$PWD/clineedit.cpp \
     $$PWD/chatstackedwidget.cpp \

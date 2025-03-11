@@ -391,3 +391,58 @@ void MainWindow::on_btnWinClose_clicked()
 {
     this->close();
 }
+
+//好友点击
+void MainWindow::SltFriendsClicked(QQCell* cell)
+{
+    ChatWindow *chatWindow = new ChatWindow();
+    connect(chatWindow, &ChatWindow::signalSendMessage, m_tcpSocket, &ClientSocket::SltSendMessage);
+    //connect(chatWindow, &ChatWindow::signalClose, this, &MainWindow::SltFriendChatWindowClose);
+
+    //设置窗口属性
+    chatWindow->SetCell(cell);
+    chatWindow->show();
+}
+
+//群组点击
+void MainWindow::SltGroupsClicked(QQCell *cell)
+{
+//    // 构建 Json 对象
+//    QJsonObject json;
+//    json.insert("id", cell->id);
+//    json.insert("name", cell->name);
+
+//    m_tcpSocket->SltSendMessage(GetMyGroups, json);
+
+//    // 判断与该用户是否有聊天窗口，如果有弹出窗口
+//    foreach (ChatWindow *window, m_chatGroupWindows) {
+//        if (window->GetUserId() == cell->id) {
+//            window->show();
+//            return;
+//        }
+//    }
+
+//    // 没有检索到聊天窗口，直接弹出新窗口
+//    ChatWindow *chatWindow = new ChatWindow();
+//    connect(chatWindow, SIGNAL(signalSendMessage(quint8,QJsonValue)), m_tcpSocket, SLOT(SltSendMessage(quint8,QJsonValue)));
+//    connect(chatWindow, SIGNAL(signalClose()), this, SLOT(SltGroupChatWindowClose()));
+
+//    chatWindow->SetCell(cell, 1);
+//    chatWindow->show();
+
+//    // 添加到当前聊天框
+//    m_chatGroupWindows.append(chatWindow);
+}
+
+//void MainWindow::SltSendMessage(const quint8 &type,const QJsonValue &json)
+//{
+
+//}
+
+////关闭与好友聊天的窗口
+void MainWindow::SltFriendChatWindowClose()
+{
+
+}
+
+

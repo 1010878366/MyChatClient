@@ -12,10 +12,13 @@
 #include"myapp.h"
 #include "global.h"
 #include "databasemagr.h"
+#include "chatwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+class QQCell;
 
 class MainWindow : public CustomMoveWidget
 {
@@ -55,6 +58,9 @@ private slots:
     void SltFriendsClicked(QQCell *cell);
     // 群组列表点击
     void SltGroupsClicked(QQCell *cell);
+
+//    void SltSendMessage(const quint8 &type,const QJsonValue &json);
+    void SltFriendChatWindowClose();
 
 private:
     Ui::MainWindow *ui;
