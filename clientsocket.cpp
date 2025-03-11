@@ -58,7 +58,7 @@ void ClientSocket::CheckConnected()
 }
 
 /**
- * @brief ClientSocket::ColseConnected
+ * @brief ClientSocket::CloseConnected
  * 主动断开连接
  */
 void ClientSocket::CloseConnected()
@@ -122,6 +122,7 @@ void ClientSocket::SltSendMessage(const quint8 &type, const QJsonValue &dataVal)
     QJsonDocument document;
     document.setObject(json);
 
+
     qDebug() << "m_tcpSocket->write:" << document.toJson(QJsonDocument::Compact);
     m_tcpSocket->write(document.toJson(QJsonDocument::Compact));
 }
@@ -173,20 +174,24 @@ void ClientSocket::SltReadyRead()
             case Register:
                 //注册
                 break;
+                case Login:
+                    ParseLogin(dataVal);
+                break;
 
-            case AddFriend:
-                emit signalMessage(AddFriend,dataVal);
+                case AddFriend:
+                    emit signalMessage(AddFriend, dataVal);
+                break;
 
-            case Login:
-                //登录
-                ParseLogin(dataVal);
+                case AddFriendRequist:
+                    emit signalMessage(AddFriendRequist, dataVal);
                 break;
             }
         }
     }
 }
 
-void ClientSocket::ParseLogin(const QJsonValue dataVal)
+//用户登录
+void ClientSocket::ParseLogin(const QJsonValue &dataVal)
 {
     QJsonObject dataObj = dataVal.toObject();
     int id = dataObj.value("id").toInt();

@@ -1,8 +1,9 @@
-#ifndef DATABASEMAGR_H
+﻿#ifndef DATABASEMAGR_H
 #define DATABASEMAGR_H
 
 #include <QObject>
 #include <QSqlDatabase>
+#include <QJsonArray>
 #include <QSqlQuery>
 #include <QMutex>
 
@@ -34,6 +35,8 @@ public:
     }
 
     bool isMyFriend(const int &userId,const QString &name);
+    QJsonArray GetMyFriend(const int &userId);
+    void AddFriend(const int &friendId,const int &userId,const QString &name);
 
 
 signals:

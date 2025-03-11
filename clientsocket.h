@@ -46,7 +46,9 @@ private slots:
 
 
 private:
-    void ParseLogin(const QJsonValue dataVal);
+    void ParseLogin(const QJsonValue &dataVal);
+
+private:
 };
 
 

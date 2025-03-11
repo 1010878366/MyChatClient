@@ -29,11 +29,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_btnWinClose_clicked()
-{
-    this->hide();
-}
-
 void MainWindow::SltMainPageChanged(int index)
 {
     //切换面板
@@ -146,23 +141,6 @@ void MainWindow::InitQQListMenu()
     connect(ui->groupListWidget_2, SIGNAL(onChildDidDoubleClicked(QQCell*)), this, SLOT(SltGroupsClicked(QQCell*)));
 }
 
-
-void MainWindow::SltTrayIconClicked(QSystemTrayIcon::ActivationReason reason)
-{
-    switch(reason)
-    {
-    case QSystemTrayIcon::DoubleClick:
-        if(!this->isVisible())
-        {
-            this->show();
-        }
-        break;
-    default:
-        break;
-    }
-
-}
-
 void MainWindow::SetSocket(ClientSocket *tcpSocket, const QString &name)
 {
     if (tcpSocket != NULL) {
@@ -171,45 +149,6 @@ void MainWindow::SetSocket(ClientSocket *tcpSocket, const QString &name)
         connect(m_tcpSocket, &ClientSocket::signalStatus, this, &MainWindow::SltTcpStatus);
 
         ui->labelUser->setText(name);
-    }
-}
-
-void MainWindow::PraseAddFriendReply(const QJsonValue &dataVal)
-{
-    if(dataVal.isObject())
-    {
-        QJsonObject dataJson = dataVal.toObject();
-        int id = dataJson.value("id").toInt();
-        QString name = dataJson.value("name").toString();
-        int status = dataJson.value("status").toInt();
-        QString head = dataJson.value("head").toString();
-
-        QQCell *cell = new QQCell;
-        cell->groupName = QString("我的好友");
-        cell->iconPath = QString(":/resource/head/%1").arg(head);
-        cell->iconPath=head;
-        cell->type=QQCellType_Child;
-        cell->name=name;
-        cell->subTitle=QString("当前用户状态:%1").arg(OnLine == status ? QString("在线"):QString("离线"));
-        cell->id=id;
-        cell->status=status;
-
-        ui->frindListWidget_2->insertQQCell(cell);
-    }
-}
-
-//服务器通知被添加的好友
-void MainWindow::PraseAddFriendRequistReply(const QJsonValue &dataVal)
-{
-    if(dataVal.isObject())
-    {
-        QJsonObject dataJson = dataVal.toObject();
-        int id = dataJson.value("id").toInt();
-        QString name = dataJson.value("name").toString();
-        QString head = dataJson.value("head").toString();
-        QString msg = dataJson.value("msg").toString();
-
-
     }
 }
 
@@ -229,8 +168,84 @@ void MainWindow::SltTcpReply(const quint8 &type, const QJsonValue &dataVal)
     }
 }
 
+//服务器返回 主动添加好友的用户 消息
+void MainWindow::PraseAddFriendReply(const QJsonValue &dataVal)
+{
+    if (dataVal.isObject()) {
+        QJsonObject dataJson = dataVal.toObject();
+        int id = dataJson.value("id").toInt();
+        QString name = dataJson.value("name").toString();
+        QString head = dataJson.value("head").toString();
+        int status = dataJson.value("status").toInt();
+
+        QQCell *cell = new QQCell;
+        cell->groupName = QString("我的好友");
+        cell->iconPath =  QString(":/resource/head/%1").arg(head);
+        cell->type = QQCellType_Child;
+        cell->name = name;
+        cell->subTitle = QString("当前用户状态: %1 ").arg(OnLine == status ? QString("在线") : QString("离线"));
+        cell->id = id;
+        cell->status = status;
+
+        ui->frindListWidget_2->insertQQCell(cell);
+    }
+}
+
+//服务器通知被添加的好友
+void MainWindow::PraseAddFriendRequistReply(const QJsonValue &dataVal)
+{
+    if (dataVal.isObject()) {
+        QJsonObject dataJson = dataVal.toObject();
+        int id = dataJson.value("id").toInt();
+        QString name = dataJson.value("name").toString();
+        QString head = dataJson.value("head").toString();
+        QString msg = dataJson.value("msg").toString();
+
+
+        if (!DataBaseMagr::Instance()->isMyFriend(MyApp::m_nId, name)) {
+            QQCell *cell = new QQCell;
+            cell->groupName = QString("我的好友");
+            cell->iconPath =  QString(":/resource/head/%1").arg(head);
+            cell->type = QQCellType_Child;
+            cell->name = name;
+            cell->subTitle = QString("当前用户状态: 在线");
+            cell->id = id;
+            cell->status = OnLine;
+
+            ui->frindListWidget_2->insertQQCell(cell);
+
+            qDebug() << "MyApp::m_nId:"<<MyApp::m_nId <<" 添加好友, 好友id:" << id;
+
+            //更新数据库
+            DataBaseMagr::Instance()->AddFriend(cell->id, MyApp::m_nId, name);
+        }
+
+    }
+}
+
 void MainWindow::SltTcpStatus(const quint8 &state)
 {
+}
+
+/**
+ * @brief MainWindow::SltTrayIcoClicked
+ * 托盘菜单
+ * @param reason
+ */
+void MainWindow::SltTrayIconClicked(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason)
+    {
+        case QSystemTrayIcon::DoubleClick:
+        {
+            if (!this->isVisible()) {
+                this->show();
+            }
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 // 托盘菜单
@@ -253,7 +268,15 @@ void MainWindow::SltTrayIconMenuClicked(QAction *action)
     }
 }
 
-
+/**
+ * @brief MainWindow::SltQuitApp
+ * 程序退出处理
+ */
+void MainWindow::SltQuitApp()
+{
+    delete ui;
+    qApp->quit();
+}
 
 /**
  * @brief MainWindow::onAddFriendMenuDidSelected
@@ -284,10 +307,10 @@ void MainWindow::onAddFriendMenuDidSelected(QAction *action)
     else if (!action->text().compare(tr("刷新")))
     {
         // 上线的时候获取当前好友的状态
-        //QJsonArray friendArr = DataBaseMagr::Instance()->GetMyFriend(MyApp::m_nId);
+        QJsonArray friendArr = DataBaseMagr::Instance()->GetMyFriend(MyApp::m_nId);
 
         // 组织Jsonarror
-        //m_tcpSocket->SltSendMessage(RefreshFriends, friendArr);
+        m_tcpSocket->SltSendMessage(RefreshFriends, friendArr);
     }
     else if (!action->text().compare(tr("删除该组")))
     {
@@ -301,7 +324,6 @@ void MainWindow::onGroupPopMenuDidSelected(QAction *action)
     {
         QString text = CInputDialog::GetInputText(this, "我的朋友们");
         if (!text.isEmpty()) {
-
             // 构建 Json 对象
             QJsonObject json;
             json.insert("id", m_tcpSocket->GetUserId());
@@ -314,11 +336,12 @@ void MainWindow::onGroupPopMenuDidSelected(QAction *action)
     {
         QString text = CInputDialog::GetInputText(this, "我的朋友们");
         if (!text.isEmpty()) {
-//            // 首先判断是否已经添加该群组了
-//            if (DataBaseMagr::Instance()->isInGroup(text)) {
-//                CMessageBox::Infomation(this, "你已经添加该群组了！");
-//                return;
-            }
+            // 首先判断是否已经添加该群组了
+            // 这里暂时保留注释代码块，可根据实际需求决定是否启用
+            // if (DataBaseMagr::Instance()->isInGroup(text)) {
+            //     CMessageBox::Infomation(this, "你已经添加该群组了！");
+            //     return;
+            // }
 
             // 构建 Json 对象
             QJsonObject json;
@@ -327,11 +350,11 @@ void MainWindow::onGroupPopMenuDidSelected(QAction *action)
 
             m_tcpSocket->SltSendMessage(AddGroup, json);
         }
-
-//    else if (!action->text().compare(tr("删除该组")))
-//    {
-//        qDebug() << "delete group";
-//    }
+    }
+    // else if (!action->text().compare(tr("删除该组")))
+    // {
+    //     qDebug() << "delete group";
+    // }
 }
 
 void MainWindow::onChildPopMenuDidSelected(QAction *action)
@@ -359,30 +382,12 @@ void MainWindow::onChildPopMenuDidSelected(QAction *action)
     }
 }
 
-void MainWindow::SltFriendsClicked(QQCell *cell)
-{
-
-}
-
-void MainWindow::SltGroupsClicked(QQCell *cell)
-{
-
-}
-
-
-/**
- * @brief MainWindow::SltQuitApp
- * 程序退出处理
- */
-void MainWindow::SltQuitApp()
-{
-    delete ui;
-    qApp->quit();
-}
-
 void MainWindow::on_btnWinMin_clicked()
 {
     this->hide();
 }
 
-
+void MainWindow::on_btnWinClose_clicked()
+{
+    this->close();
+}

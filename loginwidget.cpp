@@ -44,15 +44,15 @@ LoginWidget::~LoginWidget()
 
 void LoginWidget::on_btnWinMenu_clicked()
 {
-    ui->stackedWidget->setstartVal(0);
-    ui->stackedWidget->setendVal(180);
+    ui->stackedWidget->setStartVal(0);
+    ui->stackedWidget->setEndVal(180);
     ui->stackedWidget->animation(1);
 }
 
 void LoginWidget::on_btnCancel_clicked()
 {
-    ui->stackedWidget->setstartVal(0);
-    ui->stackedWidget->setendVal(-180);
+    ui->stackedWidget->setStartVal(0);
+    ui->stackedWidget->setEndVal(-180);
     ui->stackedWidget->animation(0);
 }
 
@@ -68,10 +68,10 @@ void LoginWidget::on_btnLogin_clicked()
 
     m_tcpSocket->SltSendMessage(0x11,json);
 
-    MainWindow *mainWindow=new MainWindow;
-    mainWindow->show();
+//    MainWindow *mainWindow=new MainWindow;
+//    mainWindow->show();
 
-    this->hide();   //登录窗口隐藏
+//    this->hide();   //登录窗口隐藏
 
 }
 
@@ -87,10 +87,10 @@ void LoginWidget::onSignalMessage(const quint8 &type,const QJsonValue &dataVal)
 
 void LoginWidget::onSignalStatus(const quint8 &state)
 {
-    switch(state)
-    {
-    case 0x01:
-        ui->labelWinTitle->setText("已连接服务器");
+    switch (state) 
+	{
+        case ConnectedHost: //连接成功
+            ui->labelWinTitle->setText("已连接服务器");
         break;
     case LoginSuccess:  //用户登录成功
     {

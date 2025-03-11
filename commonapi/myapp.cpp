@@ -65,9 +65,6 @@ void MyApp::InitApp(const QString &appPath)
     // 检查目录
     CheckDirs();
 
-    // 检测音频文件
-    //CheckSound();
-
     // 创建配置文件
     CreatorSettingFile();
 
