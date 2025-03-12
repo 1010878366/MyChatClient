@@ -152,11 +152,11 @@ void ClientSocket::SltConnected()
  */
 void ClientSocket::SltReadyRead()
 {
+    //读取socket数据
     QByteArray byRead = m_tcpSocket->readAll();
     QJsonParseError jsonError;
     //转换为JSON文档
-    QJsonDocument document = QJsonDocument::fromJson(byRead,&jsonError);
-
+    QJsonDocument document = QJsonDocument::fromJson(byRead, &jsonError);
     //解析未发生错误
     if(!document.isNull() && (jsonError.error == QJsonParseError::NoError))
     {
@@ -185,6 +185,49 @@ void ClientSocket::SltReadyRead()
                 case AddFriendRequist:
                     emit signalMessage(AddFriendRequist, dataVal);
                 break;
+
+                    break;
+                case AddGroup:
+                {
+                    emit signalMessage(AddGroup, dataVal);
+                }
+                    break;
+                case AddGroupRequist:
+                {
+                    emit signalMessage(AddGroupRequist, dataVal);
+                }
+                    break;
+                case CreateGroup:
+                {
+                    emit signalMessage(CreateGroup, dataVal);
+                }
+                    break;
+                case GetMyGroups:
+                {
+                    emit signalMessage(GetMyGroups, dataVal);
+                }
+                    break;
+                case RefreshGroups:
+                {
+                    emit signalMessage(RefreshGroups, dataVal);
+                }
+                    break;
+                case SendGroupMsg:
+                {
+                    emit signalMessage(SendGroupMsg, dataVal);
+                }
+                break;
+                case SendMsg:
+                {
+                    emit signalMessage(SendMsg, dataVal);
+                }
+                break;
+                case SendFace:
+                {
+                    emit signalMessage(SendFace, dataVal);
+                }
+                break;
+
             }
         }
     }

@@ -178,7 +178,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QWidget" name="widgetHead" native="true">
+          <widget class="WidgetHead" name="widgetHead" native="true">
            <property name="minimumSize">
             <size>
              <width>64</width>
@@ -962,6 +962,12 @@
    <class>QQListWidget</class>
    <extends>QWidget</extends>
    <header location="global">qqlist\qqlistwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WidgetHead</class>
+   <extends>QWidget</extends>
+   <header location="global">widgethead.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

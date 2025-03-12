@@ -2,12 +2,14 @@ INCLUDEPATH     += $$PWD
 DEPENDPATH      += $$PWD
 
 HEADERS += \
-    $$PWD/chatwindow.h
+    $$PWD/chatwindow.h \
+    $$PWD/widgethead.h
 
 
 
 SOURCES += \
-    $$PWD/chatwindow.cpp
+    $$PWD/chatwindow.cpp \
+    $$PWD/widgethead.cpp
 
 
 FORMS += \
