@@ -1,4 +1,4 @@
-#ifndef ITEMINFO_H
+﻿#ifndef ITEMINFO_H
 #define ITEMINFO_H
 
 #include <QtCore/qglobal.h>
@@ -25,6 +25,9 @@ public:
 
     void SetHeadPixmap(const QString &pixmap);
     QString GetStrPixmap() const;
+
+    void SetFace(int faceIndex);
+    int GetFace() const;
 
     void SetText(const QString& text);
     QString GetText() const;
@@ -53,6 +56,8 @@ private:
     QString     m_strPixmap;
     // 消息内容
     QString     m_strText;
+    //表情序号
+    int         m_faceIndex;
     // 如果是文件，会显示文件大小
     QString     m_strSize;
 

@@ -32,21 +32,21 @@ public:
     void SetSocket(ClientSocket *tcpSocket, const QString &name);
 
 private slots:
-    void on_btnWinClose_clicked();
-    void on_btnWinMin_clicked();
-
     void SltMainPageChanged(int index);
 
     //托盘菜单处理
     void SltTrayIconClicked(QSystemTrayIcon::ActivationReason reason);
     void SltTrayIconMenuClicked(QAction *action);
 
-    //程序退出处理
+    // 程序退出处理
     void SltQuitApp();
 
+    //好友点击
+    void SltFriendsClicked(QQCell*);
+    //群组点击
+    void SltGroupsClicked(QQCell*);
 
-
-
+    void SltFriendChatWindowClose();
 
     // 右键菜单
     void onAddFriendMenuDidSelected(QAction *action);
@@ -56,11 +56,9 @@ private slots:
     //QTcpSocket信号要关联的槽函数
     void SltTcpReply(const quint8 &type, const QJsonValue &dataVal);
     void SltTcpStatus(const quint8 &state);
-    // 好友列表点击
-    void SltFriendsClicked(QQCell *cell);
-    // 群组列表点击
-    void SltGroupsClicked(QQCell *cell);
-    void SltFriendChatWindowClose();
+
+    void on_btnWinMin_clicked();
+    void on_btnWinClose_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -71,10 +69,13 @@ private:
     QSystemTrayIcon *systemTrayIcon;
 
     // 聊天窗管理
+    QList<ChatWindow *> m_chatFriendWindows;
     QList<ChatWindow *> m_chatGroupWindows;
 
     void InitQQListMenu();
     void InitSysTrayIcon();
+
+    void SltReadMessages(const QJsonValue &json, const int &id);
 
     void PraseAddFriendReply(const QJsonValue &dataVal);
     void PraseAddFriendRequistReply(const QJsonValue &dataVal);
@@ -85,7 +86,10 @@ private:
     void ParseCreateGroupReply(const QJsonValue &dataVal);
     void ParseGetGroupFriendsReply(const QJsonValue &dataVal);
     void ParseRefreshGroupFriendsReply(const QJsonValue &dataVal);
+    void ParseFriendMessageReply(const QJsonValue &dataVal);
+    void ParseFaceMessageReply(const QJsonValue &dataVal);
     void ParseGroupMessageReply(const QJsonValue &dataVal);
+
     void AddMyGroups(const QJsonValue &dataVal);
 
 

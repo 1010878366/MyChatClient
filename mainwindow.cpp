@@ -63,7 +63,6 @@ void MainWindow::InitSysTrayIcon()
 
     connect(systemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this, SLOT(SltTrayIcoClicked(QSystemTrayIcon::ActivationReason)));
     connect(m_trayMenu, SIGNAL(triggered(QAction*)), this, SLOT(SltTrayIconMenuClicked(QAction*)));
-
 }
 
 /**
@@ -150,7 +149,6 @@ void MainWindow::SetSocket(ClientSocket *tcpSocket, const QString &name)
 
         ui->labelUser->setText(name);
 
-
         // 添加我的群组
         AddMyGroups(DataBaseMagr::Instance()->GetMyGroup(MyApp::m_nId));
     }
@@ -158,6 +156,7 @@ void MainWindow::SetSocket(ClientSocket *tcpSocket, const QString &name)
 
 void MainWindow::SltTcpReply(const quint8 &type, const QJsonValue &dataVal)
 {
+    qDebug() << "type:" << type;
     qDebug() << "dataVal:" << dataVal;
     switch (type) {
         case AddFriend: //服务器返回 主动添加好友的用户 消息
@@ -201,10 +200,20 @@ void MainWindow::SltTcpReply(const quint8 &type, const QJsonValue &dataVal)
             ParseGroupMessageReply(dataVal);
         }
         break;
+        case SendMsg: //服务器返回的文字消息
+        {
+            ParseFriendMessageReply(dataVal);
+        }
+        break;
+        case SendFace: //服务器返回的表情消息
+        {
+            ParseFaceMessageReply(dataVal);
+        }
+        break;
     }
 }
 
-//服务器返回 主动添加好友的用户 消息
+//服务器返回 主动添加好友的用户 消息+-
 void MainWindow::PraseAddFriendReply(const QJsonValue &dataVal)
 {
     if (dataVal.isObject()) {
@@ -224,7 +233,11 @@ void MainWindow::PraseAddFriendReply(const QJsonValue &dataVal)
         cell->status = status;
 
         ui->frindListWidget_2->insertQQCell(cell);
+        //往数据库添加记录
+        DataBaseMagr::Instance()->AddFriend(id, MyApp::m_nId ,name);
     }
+
+
 }
 
 
@@ -370,6 +383,7 @@ void MainWindow::SltTrayIconMenuClicked(QAction *action)
 //好友点击
 void MainWindow::SltFriendsClicked(QQCell* cell)
 {
+    /*
     ChatWindow *chatWindow = new ChatWindow();
     connect(chatWindow, &ChatWindow::signalSendMessage, m_tcpSocket, &ClientSocket::SltSendMessage);
     connect(chatWindow, &ChatWindow::signalClose, this, &MainWindow::SltFriendChatWindowClose);
@@ -377,6 +391,26 @@ void MainWindow::SltFriendsClicked(QQCell* cell)
     //设置窗口属性
     chatWindow->SetCell(cell);
     chatWindow->show();
+    */
+
+    // 判断与该用户是否有聊天窗口，如果有弹出窗口
+    foreach (ChatWindow *window, m_chatFriendWindows) {
+        if (window->GetUserId() == cell->id) {
+            window->show();
+            return;
+        }
+    }
+
+    // 没有检索到聊天窗口，直接弹出新窗口
+    ChatWindow *chatWindow = new ChatWindow();
+    connect(chatWindow, SIGNAL(signalSendMessage(quint8,QJsonValue)), m_tcpSocket, SLOT(SltSendMessage(quint8,QJsonValue)));
+    connect(chatWindow, SIGNAL(signalClose()), this, SLOT(SltFriendChatWindowClose()));
+    // 设置窗口属性
+    chatWindow->SetCell(cell);
+    chatWindow->show();
+
+    // 添加到当前聊天框
+    m_chatFriendWindows.append(chatWindow);
 }
 
 //群组点击
@@ -457,7 +491,7 @@ void MainWindow::onAddFriendMenuDidSelected(QAction *action)
         // 上线的时候获取当前好友的状态
         QJsonArray friendArr = DataBaseMagr::Instance()->GetMyFriend(MyApp::m_nId);
 
-        // 组织Jsonarror
+        //组织Jsonarror
         m_tcpSocket->SltSendMessage(RefreshFriends, friendArr);
     }
     else if (!action->text().compare(tr("删除该组")))
@@ -472,6 +506,7 @@ void MainWindow::onGroupPopMenuDidSelected(QAction *action)
     {
         QString text = CInputDialog::GetInputText(this, "我的朋友们");
         if (!text.isEmpty()) {
+
             // 构建 Json 对象
             QJsonObject json;
             json.insert("id", m_tcpSocket->GetUserId());
@@ -485,11 +520,10 @@ void MainWindow::onGroupPopMenuDidSelected(QAction *action)
         QString text = CInputDialog::GetInputText(this, "我的朋友们");
         if (!text.isEmpty()) {
             // 首先判断是否已经添加该群组了
-            // 这里暂时保留注释代码块，可根据实际需求决定是否启用
-            // if (DataBaseMagr::Instance()->isInGroup(text)) {
-            //     CMessageBox::Infomation(this, "你已经添加该群组了！");
-            //     return;
-            // }
+            //if (DataBaseMagr::Instance()->isInGroup(text)) {
+            //    CMessageBox::Infomation(this, "你已经添加该群组了！");
+            //    return;
+            //}
 
             // 构建 Json 对象
             QJsonObject json;
@@ -594,7 +628,6 @@ void MainWindow::ParseRefreshGroupFriendsReply(const QJsonValue &dataVal)
     }
 }
 
-
 /**
  * @brief MainWindow::ParseGroupMessageReply
  * 处理群组ID
@@ -645,6 +678,61 @@ void MainWindow::ParseGroupMessageReply(const QJsonValue &dataVal)
     }
 }
 
+
+void MainWindow::ParseFriendMessageReply(const QJsonValue &dataVal)
+{
+    if (dataVal.isObject()) {
+        QJsonObject dataObj = dataVal.toObject();
+        int nId = dataObj.value("id").toInt();
+
+        SltReadMessages(dataVal, nId);
+    }
+}
+
+void MainWindow::ParseFaceMessageReply(const QJsonValue &dataVal)
+{
+    if (dataVal.isObject()) {
+        QJsonObject dataObj = dataVal.toObject();
+        int nId = dataObj.value("id").toInt();
+
+        SltReadMessages(dataVal, nId);
+    }
+}
+
+/**
+ * @brief MainWindow::SltReadMessages
+ * 读取消息
+ * @param txt
+ * @param ip
+ */
+void MainWindow::SltReadMessages(const QJsonValue &json, const int &id)
+{
+    // 如果收到消息时有聊天窗口存在，直接添加到聊天记录，并弹出窗口
+    foreach (ChatWindow *window, m_chatFriendWindows) {
+        if (window->GetUserId() == id) {
+            window->AddMessage(json);
+            window->show();
+            return;
+        }
+    }
+
+    // 没有检索到聊天窗口，直接弹出新窗口
+    QList<QQCell *> groups = ui->frindListWidget_2->getCells();
+    foreach (QQCell *cell, groups.at(0)->childs) {
+        if (cell->id == id) {
+            ChatWindow *chatWindow = new ChatWindow();
+            connect(chatWindow, SIGNAL(signalSendMessage(quint8,QJsonValue)), m_tcpSocket, SLOT(SltSendMessage(quint8,QJsonValue)));
+            connect(chatWindow, SIGNAL(signalClose()), this, SLOT(SltFriendChatWindowClose()));
+
+            chatWindow->SetCell(cell);
+            chatWindow->AddMessage(json);
+            chatWindow->show();
+            // 添加到当前聊天框
+            m_chatFriendWindows.append(chatWindow);
+            return;
+        }
+    }
+}
 
 /**
  * @brief MainWindow::AddMyGroups

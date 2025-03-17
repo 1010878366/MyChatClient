@@ -246,4 +246,3 @@ void DataBaseMagr::AddGroup(const int &id, const int &userId, const QString &nam
 
     query.exec();
 }
-

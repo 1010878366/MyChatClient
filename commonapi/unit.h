@@ -1,4 +1,4 @@
-#ifndef UNIT
+﻿#ifndef UNIT
 #define UNIT
 
 #include <stdint.h>
@@ -106,6 +106,7 @@ typedef enum {
     Audio,          // 语音消息
     Picture,        // 图片消息
     Files,          // 文件传输
+    Face,           // 表情传输
 } MessageType;
 
 
@@ -134,8 +135,8 @@ typedef enum {
     RefreshFriends      = 0x35,     // 刷新好友状态
     RefreshGroups,                  // 刷新群组成员状态
 
-    SendMsg             = 0x40,     // 发送消息
-    SendGroupMsg,                   // 发送群组消息
+    SendMsg             = 0x40,     // 发送消息(一个用户)
+    SendGroupMsg,                   // 发送群组消息（多个用户）
     SendFile,                       // 发送文件
     SendPicture,                    // 发送图片
     SendFace,                       // 发送表情

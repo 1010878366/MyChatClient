@@ -33,8 +33,8 @@ public slots:
     void SltSendMessage(const quint8 &type, const QJsonValue &dataVal);
 private:
     // tcpsocket
-    QTcpSocket *m_tcpSocket;
-    int m_nId;
+    QTcpSocket *m_tcpSocket; //维持id=2的用户的连接
+    int m_nId; //用户id
 private slots:
     // 与服务器断开链接
     void SltDisconnected();
@@ -42,8 +42,6 @@ private slots:
     void SltConnected();
     // tcp消息处理
     void SltReadyRead();
-
-
 
 private:
     void ParseLogin(const QJsonValue &dataVal);

@@ -1,4 +1,4 @@
-#include "iteminfo.h"
+﻿#include "iteminfo.h"
 #include "unit.h"
 
 ItemInfo::ItemInfo() :
@@ -62,6 +62,14 @@ QString ItemInfo::GetStrPixmap() const {
 }
 
 
+void ItemInfo::SetFace(int faceIndex) {
+    m_faceIndex = faceIndex;
+}
+
+int ItemInfo::GetFace() const {
+    return m_faceIndex;
+}
+
 void ItemInfo::SetText(const QString &text)
 {
     m_strText = text;
@@ -70,6 +78,7 @@ void ItemInfo::SetText(const QString &text)
 QString ItemInfo::GetText() const
 {
     return m_strText;
+
 }
 
 void ItemInfo::SetFileSizeString(const QString &strSize)

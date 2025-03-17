@@ -1,4 +1,4 @@
-#include "chatbubble.h"
+﻿#include "chatbubble.h"
 #include <QDebug>
 
 #include "global.h"
@@ -396,6 +396,7 @@ void BubbleListPrivate::drawItems(QPainter *painter)
 
         // 解析消息内容
         QString strMsg = m_IIVec.at(nIndex)->GetText();
+        int faceIndex = m_IIVec.at(nIndex)->GetFace();
         quint8 msgType = m_IIVec.at(nIndex)->GetMsgType();
 
         quint8 nOrientation = m_IIVec.at(nIndex)->GetOrientation();
@@ -461,6 +462,22 @@ void BubbleListPrivate::drawItems(QPainter *painter)
             // 图片过大限制
             if (pixmap.width() > 200 || pixmap.height() > 100) {
                 pixmap = pixmap.scaled(200, 100);
+            }
+
+            bubbleWidth = pixmap.width();
+            bubbleHeight = pixmap.height() + 10;
+
+            // 文字初始化高度
+            nY = this->height() - nItemY - bubbleHeight;
+        }
+            break;
+        case Face:
+        {
+            QString facePath = QString("../MyChatClient/resource/faces/%1.gif").arg(faceIndex);
+            qDebug() << "facePath:" << facePath;
+            pixmap = QPixmap(facePath);
+            if (pixmap.isNull()) {
+                pixmap = QPixmap("../MyChatClient/resource/faces/1.gif");
             }
 
             bubbleWidth = pixmap.width();
@@ -624,6 +641,9 @@ void BubbleListPrivate::drawItems(QPainter *painter)
             painter->drawText(msgRect, strMsg, Qt::AlignVCenter | Qt::AlignLeft);
         }
         else if (Picture == msgType) {
+            painter->drawPixmap(nX + 10, nY + 5, pixmap.width(), pixmap.height(), pixmap);
+        }
+        else if (Face == msgType) {
             painter->drawPixmap(nX + 10, nY + 5, pixmap.width(), pixmap.height(), pixmap);
         }
         else if (Files == msgType) {

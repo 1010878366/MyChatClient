@@ -6,8 +6,8 @@
 #include <QHostAddress>
 #include <QDataStream>
 #include <QApplication>
-#include"unit.h"
-#include"myapp.h"
+#include "unit.h"
+#include "myapp.h"
 
 //#define SERVER_IP "127.0.0.1"
 //#define SERVER_PORT 60100
@@ -53,7 +53,6 @@ void ClientSocket::CheckConnected()
     if (m_tcpSocket->state() != QTcpSocket::ConnectedState)
     {
         m_tcpSocket->connectToHost(MyApp::m_strHostAddr, MyApp::m_nMsgPort);
-
     }
 }
 
@@ -122,7 +121,6 @@ void ClientSocket::SltSendMessage(const quint8 &type, const QJsonValue &dataVal)
     QJsonDocument document;
     document.setObject(json);
 
-
     qDebug() << "m_tcpSocket->write:" << document.toJson(QJsonDocument::Compact);
     m_tcpSocket->write(document.toJson(QJsonDocument::Compact));
 }
@@ -158,21 +156,18 @@ void ClientSocket::SltReadyRead()
     //转换为JSON文档
     QJsonDocument document = QJsonDocument::fromJson(byRead, &jsonError);
     //解析未发生错误
-    if(!document.isNull() && (jsonError.error == QJsonParseError::NoError))
-    {
+    if (!document.isNull() && (jsonError.error == QJsonParseError::NoError)) {
         //json文档对象
-        if(document.isObject())
-        {
+        if (document.isObject()) {
             //转化为对象
             QJsonObject jsonObj = document.object();
             QJsonValue dataVal = jsonObj.value("data");
             int nFrom = jsonObj.value("from").toInt();
             int nType = jsonObj.value("type").toInt();
 
-            switch(nType)
-            {
-            case Register:
-                //注册
+            switch (nType) {
+                case Register:
+
                 break;
                 case Login:
                     ParseLogin(dataVal);
@@ -231,6 +226,7 @@ void ClientSocket::SltReadyRead()
             }
         }
     }
+
 }
 
 //用户登录
@@ -240,28 +236,18 @@ void ClientSocket::ParseLogin(const QJsonValue &dataVal)
     int id = dataObj.value("id").toInt();
     int code = dataObj.value("code").toInt();
     QString msg = dataObj.value("msg").toString();
-    if(code == -2)
-    {
-        qDebug()<<"用户已在线";
+    if (code == -2) {
+        qDebug() << "用户已在线";
         emit signalStatus(LoginRepeat);
-        m_nId=id;
-    }
-    else if(code == -1)
-    {
-        qDebug()<<"用户未注册";
+        m_nId = id;
+    } else if (code == -1) {
+        qDebug() << "用户未注册";
         emit signalStatus(LoginPasswdError);
-
-    }
-    else if(code == 0 && msg == "ok")
-    {
-        m_nId=id;
+    } else if (code == 0 && msg == "ok") {
+        m_nId = id;
         MyApp::m_nId = id;
-        qDebug()<<"登录成功！";
-        emit signalStatus(LoginSuccess);
 
-    }
-    else
-    {
-        qDebug()<<"ERR：登录失败！";
+        qDebug() << "登录成功";
+        emit signalStatus(LoginSuccess);
     }
 }

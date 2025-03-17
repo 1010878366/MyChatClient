@@ -1,4 +1,4 @@
-#include "facedialog.h"
+﻿#include "facedialog.h"
 #include "ui_facedialog.h"
 #include <QDebug>
 
@@ -14,7 +14,7 @@ FaceDialog::FaceDialog(QWidget *parent) :
     QString fileName;
     //加载表情图片
     for (int i=0;i<132;i++) {
-         fileName = QString("../face_demo/res/faces/%1.gif").arg(i+1);
+         fileName = QString("../MyChatClient/resource/faces/%1.gif").arg(i+1);
         //添加表情
         addEmojiItem(fileName);
     }
@@ -40,7 +40,7 @@ void FaceDialog::addEmojiItem(QString fileName)
     EmojiItem *emojiItem = new EmojiItem(fileName);
     connect(emojiItem, EmojiItem::sigSelectEmoji, this, [=](int faceIndex){
         m_selectFaceIndex = faceIndex;
-        qDebug() << "m_selectFaceIndex:" <<m_selectFaceIndex;
+        this->hide();
     });
 
 
@@ -52,4 +52,19 @@ void FaceDialog::addEmojiItem(QString fileName)
 void FaceDialog::on_btnClose_clicked()
 {
     this->hide();
+}
+
+void FaceDialog::setSelectFaceIndex(int index)
+{
+    m_selectFaceIndex = index;
+}
+
+int FaceDialog::selectFaceIndex()
+{
+    return m_selectFaceIndex;
+}
+
+void FaceDialog::moveFaceLocation(QPoint p)
+{
+    this->move(p);
 }
