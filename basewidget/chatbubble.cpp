@@ -1,4 +1,4 @@
-﻿#include "chatbubble.h"
+#include "chatbubble.h"
 #include <QDebug>
 
 #include "global.h"
@@ -220,7 +220,31 @@ void BubbleListPrivate::wheelDown()
  */
 void BubbleListPrivate::SltFileMenuClicked(QAction *action)
 {
+    QString strText = m_IIVec.at(m_selectedIndex)->GetText();
+    QFileInfo fileInfo(strText);
 
+    // 菜单操作
+    if (action->text() == "下载文件")
+    {
+        // 如果文件存在，直接打开目录
+        if (QFile::exists(strText)) {
+            QDesktopServices::openUrl(QUrl(fileInfo.absolutePath()));
+            return;
+        }
+
+        // 获取文件拓展名，因为服务器下载文件只需要名字即可
+        Q_EMIT signalDownloadFile(fileInfo.fileName());
+    }
+    else if (action->text() == "打开文件") {
+        // 如果文件存在，直接打开目录
+        if (QFile::exists(strText)) {
+            QDesktopServices::openUrl(QUrl(strText));
+            return;
+        }
+    }
+    else if (action->text() == "打开文件目录") {
+        QDesktopServices::openUrl(QUrl(fileInfo.absolutePath()));
+    }
 }
 
 /*!
@@ -272,6 +296,7 @@ void BubbleListPrivate::mouseMoveEvent(QMouseEvent *e)
  * 鼠标右键按下
  * @param e
  */
+/*
 void BubbleListPrivate::mousePressEvent(QMouseEvent *e)
 {
     if (Qt::RightButton == e->button()) {
@@ -296,6 +321,42 @@ void BubbleListPrivate::mousePressEvent(QMouseEvent *e)
         }
     }
 }
+*/
+
+void BubbleListPrivate::mousePressEvent(QMouseEvent *e)
+{
+    if (Qt::RightButton == e->button()) {
+        int nItemY = ITEM_SPACE;
+        for (int nIndex = m_currIndex; nIndex < m_IIVec.count(); nIndex++)
+        {
+            if (nItemY > this->height()) {
+                break;
+            }
+
+            int nY = this->height() - nItemY;
+            QRectF bubbleRect = m_IIVec.at(nIndex)->GetBobbleRect();
+            if ((e->pos().y() < (nY) && (e->pos().y() > (nY - bubbleRect.height()))) &&
+                    ((e->pos().x() > bubbleRect.x()) &&
+                     (e->pos().x() < (bubbleRect.x() + bubbleRect.width()))))
+            {
+                // 当前选中item
+                m_selectedIndex = nIndex;
+
+                // 如果是图片或文件，可以直接打开
+                if (Picture == m_IIVec.at(nIndex)->GetMsgType()) {
+                    picRightButtonMenu->popup(e->globalPos());
+                    return;
+                }
+                else if (Files == m_IIVec.at(nIndex)->GetMsgType()) {
+                    fileRightButtonMenu->popup(e->globalPos());
+                    return;
+                }
+            }
+            nItemY += bubbleRect.height() + ITEM_SPACE;
+        }
+    }
+}
+
 
 /**
  * @brief BubbleListPrivate::mouseDoubleClickEvent

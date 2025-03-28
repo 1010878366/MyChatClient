@@ -1,4 +1,4 @@
-﻿#include "animationstackedwidget.h"
+#include "animationstackedwidget.h"
 #include <QPropertyAnimation>
 #include <QPainter>
 #include <QTransform>

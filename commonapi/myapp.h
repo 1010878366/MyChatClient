@@ -11,10 +11,10 @@ public:
     //=======================系统配置部分=========================//
     static QString m_strAppPath;         // 应用程序路径
     static QString m_strDataPath;        // 数据保存路径
-    static QString m_strRecvPath;        // 音频目录
+    static QString m_strRecvPath;        // 接收目录
     static QString m_strDatabasePath;    // 数据库目录
     static QString m_strConfPath;        // 配置目录
-    static QString m_strSoundPath;       // 配置目录
+    static QString m_strSoundPath;       // 音频目录
     static QString m_strRecordPath;      // 录音目录
 
     static QString m_strFacePath;        // 配置目录

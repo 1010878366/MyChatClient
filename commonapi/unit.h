@@ -1,4 +1,4 @@
-﻿#ifndef UNIT
+#ifndef UNIT
 #define UNIT
 
 #include <stdint.h>

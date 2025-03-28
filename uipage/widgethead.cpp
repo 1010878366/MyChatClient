@@ -27,7 +27,7 @@ WidgetHead::WidgetHead(QWidget *parent) :
     dialog->resize(200, 200);
     dialog->hide();
 
-    m_pixmap = QPixmap(":/resource/head/1.bmp");
+    m_pixmap = QPixmap(":/resource/head/2.bmp");
     this->setCursor(Qt::PointingHandCursor);
 
     // 启动的时候对头像文件进行检测

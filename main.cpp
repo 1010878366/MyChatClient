@@ -1,8 +1,8 @@
-﻿#include "mainwindow.h"
-#include"loginwidget.h"
+#include "loginwidget.h"
 #include "databasemagr.h"
 #include <QApplication>
-#include"global.h"
+#include "global.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -18,3 +18,6 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+
+
+

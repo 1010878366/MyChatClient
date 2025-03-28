@@ -1,4 +1,4 @@
-﻿#ifndef DATABASEMAGR_H
+#ifndef DATABASEMAGR_H
 #define DATABASEMAGR_H
 
 #include <QObject>
@@ -40,7 +40,7 @@ public:
 
 
     bool isMyFriend(const int &userId, const QString &name);
-    QJsonArray GetMyFriend(const int &userId);
+    QJsonArray GetMyFriend(const int &userId) const;
     void AddFriend(const int &friendId, const int &userId, const QString &name);
 
     // 获取历史聊天记录

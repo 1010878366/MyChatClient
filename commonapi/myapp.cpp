@@ -1,4 +1,4 @@
-﻿#include "myapp.h"
+#include "myapp.h"
 #include "unit.h"
 
 #include <QApplication>
@@ -25,22 +25,20 @@ QString MyApp::m_strIniFile         = "config.ini";
 
 #if 0
 // 服务器相关配置
-//QString MyApp::m_strHostAddr        = "122.152.222.180";
-QString MyApp::m_strHostAddr        = "127.0.0.1";
+QString MyApp::m_strHostAddr        = "192.168.2.199";
 int     MyApp::m_nMsgPort           = 32101;
 int     MyApp::m_nFilePort          = 32102;
 int     MyApp::m_nGroupPort         = 32103;
 #else
 // 服务器相关配置
-//QString MyApp::m_strHostAddr        = "192.168.91.1";
-QString MyApp::m_strHostAddr        = "127.0.0.1";
+QString MyApp::m_strHostAddr        = "192.168.2.199";
 int     MyApp::m_nMsgPort           = 60100;
 int     MyApp::m_nFilePort          = 60101;
 int     MyApp::m_nGroupPort         = 60102;
 #endif
 
-QString MyApp::m_strUserName        = "zhangkai";
-QString MyApp::m_strPassword        = "123456";
+QString MyApp::m_strUserName        = "milo";
+QString MyApp::m_strPassword        = "milo";
 QString MyApp::m_strHeadFile        = "head-64.png";
 
 int     MyApp::m_nId                = -1;
@@ -111,16 +109,15 @@ void MyApp::ReadSettingFile()
 {
     QSettings settings(m_strIniFile, QSettings::IniFormat);
     settings.beginGroup("UserCfg");
-    m_strUserName = settings.value("User", "zhangkai").toString();
-    m_strPassword = settings.value("Passwd", "123456")  .toString();
+    m_strUserName = settings.value("User", "milo").toString();
+    m_strPassword = settings.value("Passwd", "milo")  .toString();
     settings.endGroup();
 
-
     settings.beginGroup("Server");
-    m_strHostAddr = settings.value("HostAddr", "127.0.0.1").toString();
+    m_strHostAddr = settings.value("HostAddr", "192.168.2.199").toString();
     m_nMsgPort    = settings.value("MsgPort", 60100)  .toInt();
     m_nFilePort   = settings.value("FilePort", 60101)  .toInt();
-    m_nGroupPort  = settings.value("GroupPort", 60102)  .toInt();
+    m_nGroupPort  = settings.value("GroupPort", 60103)  .toInt();
     settings.endGroup();
 }
 

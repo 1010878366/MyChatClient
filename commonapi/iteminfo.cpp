@@ -1,4 +1,4 @@
-﻿#include "iteminfo.h"
+#include "iteminfo.h"
 #include "unit.h"
 
 ItemInfo::ItemInfo() :
@@ -78,7 +78,6 @@ void ItemInfo::SetText(const QString &text)
 QString ItemInfo::GetText() const
 {
     return m_strText;
-
 }
 
 void ItemInfo::SetFileSizeString(const QString &strSize)

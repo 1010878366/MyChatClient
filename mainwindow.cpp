@@ -1,22 +1,29 @@
-﻿#include "mainwindow.h"
+#include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMenu>
+#include "chatstackedwidget.h"
+#include "global.h"
+#include "qqcell.h"
+#include "databasemagr.h"
+#include "chatwindow.h"
+#include "unit.h"
+#include <QDebug>
 
-MainWindow::MainWindow(QWidget *parent)
-    : CustomMoveWidget(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) :
+    CustomMoveWidget(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowFlags(Qt::FramelessWindowHint);      //去掉qt自带的标题栏
 
     m_btnGroup = new QButtonGroup(this);
-    m_btnGroup->addButton(ui->btnFrind,0);
-    m_btnGroup->addButton(ui->btnGroup,1);
-    m_btnGroup->addButton(ui->btnConversation,2);
-    m_btnGroup->addButton(ui->btnApplay,3);
+    m_btnGroup->addButton(ui->btnFrind, 0);
+    m_btnGroup->addButton(ui->btnGroup, 1);
+    m_btnGroup->addButton(ui->btnConversation, 2);
+    m_btnGroup->addButton(ui->btnApplay, 3);
 
-    //connect(m_btnGroup, QOverload<int>::of(&QButtonGroup::buttonClicked), this, &MainWindow::SltMainPageChanged);
-    connect(m_btnGroup,SIGNAL(buttonClicked(int)),this,SLOT(SltMainPageChanged(int)));
+    connect(m_btnGroup, SIGNAL(buttonClicked(int)), this, SLOT(SltMainPageChanged(int)));
 
     ui->GCStackedWidget->setCurrentIndex(0);
 
@@ -32,21 +39,25 @@ MainWindow::~MainWindow()
 void MainWindow::SltMainPageChanged(int index)
 {
     //切换面板
-    static int s_nIndex = 0;    //记录当前选中的页的下标
-    if(s_nIndex == index)
-    {
+    static int s_nIndex = 0; //记录当前ui->GCStackedWidget选中的页的下标
+    if (s_nIndex == index) {
         return;
     }
 
     ui->GCStackedWidget->setLength(ui->GCStackedWidget->width(),
-        index > s_nIndex ? ChatStackedWidget::LeftToRight:ChatStackedWidget::RightToLeft);
+        index > s_nIndex ? ChatStackedWidget::LeftToRight : ChatStackedWidget::RightToLeft);
+
     ui->GCStackedWidget->start(index);
     s_nIndex = index;
 }
 
+
+/**
+ * @brief MainWindow::InitSysTrayIcon
+ * 托盘菜单
+ */
 void MainWindow::InitSysTrayIcon()
 {
-    //托盘菜单
     systemTrayIcon = new QSystemTrayIcon(this);
     systemTrayIcon->setIcon(QIcon(":/resource/background/app.png"));
 
@@ -79,7 +90,7 @@ void MainWindow::InitQQListMenu()
     addFriend->addSeparator();
     addFriend->addAction(tr("删除该组"));
     connect(addFriend, SIGNAL(triggered(QAction*)), this, SLOT(onAddFriendMenuDidSelected(QAction*)));
-    ui->frindListWidget_2->setGroupPopMenu(addFriend);
+    ui->frindListWidget->setGroupPopMenu(addFriend);
 
     // 设置子菜单
     QMenu *childMenu = new QMenu(this);
@@ -93,7 +104,7 @@ void MainWindow::InitQQListMenu()
 
     // childMenu->addAction(tr("创建讨论组"));
     connect(childMenu, SIGNAL(triggered(QAction*)), this, SLOT(onChildPopMenuDidSelected(QAction*)));
-    ui->frindListWidget_2->setChildPopMenu(childMenu);
+    ui->frindListWidget->setChildPopMenu(childMenu);
 
     //添加默认项
     //好友列表
@@ -103,7 +114,7 @@ void MainWindow::InitQQListMenu()
     myFriend->type = QQCellType_Group;
     myFriend->name = QString(tr("我的好友"));
     myFriend->subTitle = QString("(0/0)");
-    ui->frindListWidget_2->insertQQCell(myFriend);
+    ui->frindListWidget->insertQQCell(myFriend);
 
     QQCell *blacklist = new QQCell;
     blacklist->groupName = QString(tr("黑名单"));
@@ -111,9 +122,9 @@ void MainWindow::InitQQListMenu()
     blacklist->type = QQCellType_Group;
     blacklist->name = QString(tr("黑名单"));
     blacklist->subTitle = QString("(0/0)");
-    ui->frindListWidget_2->insertQQCell(blacklist);
+    ui->frindListWidget->insertQQCell(blacklist);
 
-    connect(ui->frindListWidget_2, SIGNAL(onChildDidDoubleClicked(QQCell*)), this, SLOT(SltFriendsClicked(QQCell*)));
+    connect(ui->frindListWidget, SIGNAL(onChildDidDoubleClicked(QQCell*)), this, SLOT(SltFriendsClicked(QQCell*)));
 
     //组列表
     QMenu *myGroupMenu = new QMenu(this);
@@ -122,11 +133,11 @@ void MainWindow::InitQQListMenu()
     myGroupMenu->addAction(tr("删除该组"));
     myGroupMenu->addSeparator();
     connect(myGroupMenu, SIGNAL(triggered(QAction*)), this, SLOT(onGroupPopMenuDidSelected(QAction*)));
-    ui->groupListWidget_2->setGroupPopMenu(myGroupMenu);
+    ui->groupListWidget->setGroupPopMenu(myGroupMenu);
     //设置子菜单
     QMenu *groupChildMen = new QMenu(this);
     groupChildMen->addAction(tr("发送即时消息"));
-    ui->groupListWidget_2->setChildPopMenu(groupChildMen);
+    ui->groupListWidget->setChildPopMenu(groupChildMen);
 
     //添加默认项
     QQCell *groupCell = new QQCell;
@@ -135,9 +146,9 @@ void MainWindow::InitQQListMenu()
     groupCell->type = QQCellType_GroupEx;
     groupCell->name = QString(tr("讨论组"));
     groupCell->subTitle = QString("(0/0)");
-    ui->groupListWidget_2->insertQQCell(groupCell);
+    ui->groupListWidget->insertQQCell(groupCell);
 
-    connect(ui->groupListWidget_2, SIGNAL(onChildDidDoubleClicked(QQCell*)), this, SLOT(SltGroupsClicked(QQCell*)));
+    connect(ui->groupListWidget, SIGNAL(onChildDidDoubleClicked(QQCell*)), this, SLOT(SltGroupsClicked(QQCell*)));
 }
 
 void MainWindow::SetSocket(ClientSocket *tcpSocket, const QString &name)
@@ -210,6 +221,11 @@ void MainWindow::SltTcpReply(const quint8 &type, const QJsonValue &dataVal)
             ParseFaceMessageReply(dataVal);
         }
         break;
+        case SendFile: //服务器发送过来的文件
+        {
+            ParseFriendMessageReply(dataVal);
+        }
+        break;
     }
 }
 
@@ -232,7 +248,9 @@ void MainWindow::PraseAddFriendReply(const QJsonValue &dataVal)
         cell->id = id;
         cell->status = status;
 
-        ui->frindListWidget_2->insertQQCell(cell);
+        ui->frindListWidget->insertQQCell(cell);
+
+
         //往数据库添加记录
         DataBaseMagr::Instance()->AddFriend(id, MyApp::m_nId ,name);
     }
@@ -266,7 +284,7 @@ void MainWindow::ParseCreateGroupReply(const QJsonValue &dataVal)
         cell->id        = nId;
         cell->status    = OnLine;
 
-        ui->groupListWidget_2->insertQQCell(cell);
+        ui->groupListWidget->insertQQCell(cell);
 
         // 更新至数据库
         DataBaseMagr::Instance()->AddGroup(cell->id, MyApp::m_nId, cell->name);
@@ -296,7 +314,7 @@ void MainWindow::ParseAddGroupReply(const QJsonValue &dataVal)
         cell->id        = nId;
         cell->status    = OnLine;
 
-        ui->groupListWidget_2->insertQQCell(cell);
+        ui->groupListWidget->insertQQCell(cell);
 
         // 更新至数据库
         DataBaseMagr::Instance()->AddGroup(nId, MyApp::m_nId, cell->name);
@@ -324,7 +342,7 @@ void MainWindow::PraseAddFriendRequistReply(const QJsonValue &dataVal)
             cell->id = id;
             cell->status = OnLine;
 
-            ui->frindListWidget_2->insertQQCell(cell);
+            ui->frindListWidget->insertQQCell(cell);
 
             qDebug() << "MyApp::m_nId:"<<MyApp::m_nId <<" 添加好友, 好友id:" << id;
 
@@ -344,7 +362,7 @@ void MainWindow::SltTcpStatus(const quint8 &state)
  * 托盘菜单
  * @param reason
  */
-void MainWindow::SltTrayIconClicked(QSystemTrayIcon::ActivationReason reason)
+void MainWindow::SltTrayIcoClicked(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason)
     {
@@ -392,6 +410,7 @@ void MainWindow::SltFriendsClicked(QQCell* cell)
     chatWindow->SetCell(cell);
     chatWindow->show();
     */
+
 
     // 判断与该用户是否有聊天窗口，如果有弹出窗口
     foreach (ChatWindow *window, m_chatFriendWindows) {
@@ -446,7 +465,17 @@ void MainWindow::SltGroupsClicked(QQCell *cell)
 //关闭与好友聊天的窗口
 void MainWindow::SltFriendChatWindowClose()
 {
+    ChatWindow *chatWindow = (ChatWindow*)sender();
+    disconnect(chatWindow, SIGNAL(signalSendMessage(quint8,QJsonValue)), m_tcpSocket, SLOT(SltSendMessage(quint8,QJsonValue)));
+    disconnect(chatWindow, SIGNAL(signalClose()), this, SLOT(SltFriendChatWindowClose()));
 
+    if (!this->isVisible() && m_chatFriendWindows.size() == 1)
+    {
+        this->show();
+    }
+
+    // 删除聊天窗口
+    m_chatFriendWindows.removeOne(chatWindow);
 }
 
 
@@ -459,6 +488,12 @@ void MainWindow::SltQuitApp()
     delete ui;
     qApp->quit();
 }
+
+void MainWindow::on_btnWinClose_clicked()
+{
+    this->hide();
+}
+
 
 /**
  * @brief MainWindow::onAddFriendMenuDidSelected
@@ -541,7 +576,7 @@ void MainWindow::onGroupPopMenuDidSelected(QAction *action)
 
 void MainWindow::onChildPopMenuDidSelected(QAction *action)
 {
-    QQCell *cell = ui->frindListWidget_2->GetRightClickedCell();
+    QQCell *cell = ui->frindListWidget->GetRightClickedCell();
     if (NULL == cell) return;
 
     if (!action->text().compare(tr("发送即时消息")))
@@ -557,7 +592,7 @@ void MainWindow::onChildPopMenuDidSelected(QAction *action)
     else if (!action->text().compare(tr("删除联系人")))
     {
         qDebug() << "delete my friend" << cell->name;
-        ui->frindListWidget_2->removeQQCell(cell);
+        ui->frindListWidget->removeQQCell(cell);
         // 更新数据库
         //bool bOk = DataBaseMagr::Instance()->DeleteMyFriend(cell->id, MyApp::m_nId);
         //CMessageBox::Infomation(this, bOk ? tr("用户删除成功！") : tr("用户删除失败！"));
@@ -650,7 +685,7 @@ void MainWindow::ParseGroupMessageReply(const QJsonValue &dataVal)
         }
 
         // 没有检索到聊天窗口，直接弹出新窗口
-        QList<QQCell *> groups = ui->groupListWidget_2->getCells();
+        QList<QQCell *> groups = ui->groupListWidget->getCells();
         foreach (QQCell *cell, groups.at(0)->childs) {
             // 有列表的才创建
             if (cell->id == nId) {
@@ -717,7 +752,7 @@ void MainWindow::SltReadMessages(const QJsonValue &json, const int &id)
     }
 
     // 没有检索到聊天窗口，直接弹出新窗口
-    QList<QQCell *> groups = ui->frindListWidget_2->getCells();
+    QList<QQCell *> groups = ui->frindListWidget->getCells();
     foreach (QQCell *cell, groups.at(0)->childs) {
         if (cell->id == id) {
             ChatWindow *chatWindow = new ChatWindow();
@@ -756,7 +791,7 @@ void MainWindow::AddMyGroups(const QJsonValue &dataVal)
             cell->id        = jsonObj.value("id").toInt();;
             cell->SetStatus(OnLine);
 
-            ui->groupListWidget_2->insertQQCell(cell);
+            ui->groupListWidget->insertQQCell(cell);
         }
     }
 }
@@ -775,14 +810,4 @@ QString MainWindow::GetHeadPixmap(const QString &name) const
     }
 
     return ":/resource/head/1.bmp";
-}
-
-void MainWindow::on_btnWinClose_clicked()
-{
-    this->close();
-}
-
-void MainWindow::on_btnWinMin_clicked()
-{
-    this->hide();
 }

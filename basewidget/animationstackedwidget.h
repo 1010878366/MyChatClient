@@ -1,9 +1,7 @@
-﻿#ifndef ANIMATIONSTACKEDWIDGET_H
+#ifndef ANIMATIONSTACKEDWIDGET_H
 #define ANIMATIONSTACKEDWIDGET_H
-#include<QStackedWidget>
-#include <QPropertyAnimation>
-#include <QPainter>
-#include <QTransform>
+
+#include <QStackedWidget>
 
 class AnimationStackedWidget : public QStackedWidget
 {
@@ -59,3 +57,4 @@ private:
 };
 
 #endif // ANIMATIONSTACKEDWIDGET_H
+

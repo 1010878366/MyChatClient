@@ -1,4 +1,4 @@
-﻿#include "facedialog.h"
+#include "facedialog.h"
 #include "ui_facedialog.h"
 #include <QDebug>
 

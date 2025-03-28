@@ -1,21 +1,20 @@
-INCLUDEPATH     += $$PWD
-DEPENDPATH      += $$PWD
+INCLUDEPATH += $$PWD
+DEPENDPATH += $$PWD
+
 
 HEADERS += \
     $$PWD/chatwindow.h \
-    $$PWD/face/emojiitem.h \
+    $$PWD/widgethead.h \
     $$PWD/face/facedialog.h \
-    $$PWD/widgethead.h
-
-
+    $$PWD/face/emojiitem.h \
 
 SOURCES += \
     $$PWD/chatwindow.cpp \
-    $$PWD/face/emojiitem.cpp \
+    $$PWD/widgethead.cpp \
     $$PWD/face/facedialog.cpp \
-    $$PWD/widgethead.cpp
-
+    $$PWD/face/emojiitem.cpp \
 
 FORMS += \
     $$PWD/chatwindow.ui \
-    $$PWD/face/facedialog.ui
+    $$PWD/face/facedialog.ui \
+

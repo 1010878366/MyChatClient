@@ -1,4 +1,4 @@
-﻿*{	font-family: "微软雅黑"; }
+*{	font-family: "微软雅黑"; }
 
 /*主界面样式*/
 QWidget#MainWindow,QWidget#SystemSetting,QWidget#PictureCutDialog,CBaseDialog {
@@ -462,5 +462,3 @@ QCheckBox::indicator:checked:pressed {
 QListView::item:hover {
     background-color: #D9D8D7;
 }
-
-

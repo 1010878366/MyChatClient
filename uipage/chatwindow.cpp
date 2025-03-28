@@ -1,4 +1,4 @@
-﻿#include "chatwindow.h"
+#include "chatwindow.h"
 #include "ui_chatwindow.h"
 #include "iteminfo.h"
 
@@ -67,10 +67,16 @@ ChatWindow::ChatWindow(QWidget *parent) :
     // 关联信号槽
     connect(ui->btnWinClose, SIGNAL(clicked(bool)), this, SLOT(SltCloseWindow()));
     connect(ui->btnClose, SIGNAL(clicked(bool)), this, SLOT(SltCloseWindow()));
+    //下载文件
     connect(ui->widgetBubble, SIGNAL(signalDownloadFile(QString)), this, SLOT(SltDownloadFiles(QString)));
 
     ui->textEditMsg->setFocus();
 
+    // 文件服务器
+    m_tcpFileSocket = new ClientFileSocket(this);
+    connect(m_tcpFileSocket, SIGNAL(signamFileRecvOk(quint8,QString)), this, SLOT(SltFileRecvFinished(quint8,QString)));
+    connect(m_tcpFileSocket, SIGNAL(signalUpdateProgress(quint64,quint64)),
+            this, SLOT(SltUpdateProgress(quint64,quint64)));
 
     m_faceDialog = new FaceDialog(this);
     m_faceDialog->setModal(true);
@@ -102,6 +108,8 @@ void ChatWindow::SetCell(QQCell *cell, const quint8 &type)
         ui->tableViewGroups->setVisible(false);
         ui->widgetFileInfo->setVisible(true);
         ui->widgetFileBoard->setVisible(false);
+
+        m_tcpFileSocket->ConnectToServer(MyApp::m_strHostAddr, MyApp::m_nFilePort, m_cell->id);
     }
     else {
         ui->tableViewGroups->setVisible(true);
@@ -153,6 +161,9 @@ void ChatWindow::AddMessage(const QJsonValue &json)
         } else if (type == Face) {
             int faceIndex = dataObj.value("face").toInt();
             itemInfo->SetFace(faceIndex);
+        } else if (type == Files) {
+            QString strText = dataObj.value("msg").toString();
+            itemInfo->SetText(strText);
         }
 
         // 加入聊天窗口
@@ -362,8 +373,51 @@ void ChatWindow::on_toolButton_7_clicked()
  */
 void ChatWindow::SltUpdateProgress(quint64 bytes, quint64 total)
 {
+    if (SendPicture == m_nFileType) return;
 
+    // 总时间
+    int nTime = m_updateTime.elapsed();
+
+    // 下载速度
+    double dBytesSpeed = (bytes * 1000.0) / nTime;
+
+   ui->lineEditCurrSize->setText(myHelper::CalcSize(bytes));
+   ui->lineEditTotalSize->setText(myHelper::CalcSize(total));
+   ui->lineEditRate->setText(myHelper::CalcSpeed(dBytesSpeed));
+
+   ui->progressBar->setMaximum(total);
+   ui->progressBar->setValue(bytes);
+
+   ui->widgetFileBoard->setVisible(bytes < total);
+
+   // 文件接收完成，发送消息给服务器，转发至对端
+   if (bytes >= total && SendFile == m_nFileType) {
+       QJsonObject json;
+       json.insert("id", MyApp::m_nId);
+       json.insert("to", m_cell->id);
+       json.insert("msg", myHelper::GetFileNameWithExtension(m_strFileName));
+       json.insert("size", "文件大小：" + myHelper::CalcSize(total));
+       json.insert("type", Files);
+       Q_EMIT signalSendMessage(SendFile, json);
+
+       // 构建气泡消息
+       ItemInfo *itemInfo = new ItemInfo();
+       itemInfo->SetName(MyApp::m_strUserName);
+       itemInfo->SetDatetime(DATE_TIME);
+       itemInfo->SetHeadPixmap(MyApp::m_strHeadFile);
+       itemInfo->SetText(m_strFileName);
+       itemInfo->SetFileSizeString(myHelper::CalcSize(total));
+       itemInfo->SetOrientation(Right);
+       itemInfo->SetMsgType(Files);
+
+       // 加入聊天界面
+       ui->widgetBubble->addItem(itemInfo);
+
+       // 保存消息记录到数据库
+       DataBaseMagr::Instance()->AddHistoryMsg(m_cell->id, itemInfo);
+   }
 }
+
 
 /**
  * @brief ChatWindow::SltFileRecvFinished
@@ -391,13 +445,55 @@ void ChatWindow::on_toolButton_clicked()
 // 发送文件
 void ChatWindow::on_btnSendFile_clicked()
 {
+    // 群组消息不记录
+    if (0 != m_nChatType) {
+        QMessageBox::information(this, tr("提示"), tr("不支持群组文件传输"));
+        return;
+    }
 
+    // 选择文件
+    static QString s_strPath = MyApp::m_strAppPath;
+    QString strFileName = QFileDialog::getOpenFileName(this,
+                                                       tr("选择文件"),
+                                                       s_strPath,
+                                                       tr("文件(*)"));
+
+    if (strFileName.isEmpty()) return;
+    s_strPath = strFileName;
+
+    // 获取名字
+    QFileInfo fileInfo(strFileName);
+    m_strFileName = strFileName;
+    QString strSize = "文件大小： ";
+    strSize += myHelper::CalcSize(fileInfo.size());
+
+    // 文件上传限制，不能超过1G
+    if (fileInfo.size() > (1024 * 1024 * 1024)) {
+        CMessageBox::Infomation(this, tr("上传文件过大！"));
+        return;
+    }
+
+    // 开始传输文件
+    m_tcpFileSocket->StartTransferFile(strFileName);
+
+    // 开始计时
+    m_updateTime.restart();
+    m_nFileType = SendFile;
 }
+
 
 // 服务器下载文件
 void ChatWindow::SltDownloadFiles(const QString &fileName)
 {
+    QJsonObject json;
+    json.insert("from", MyApp::m_nId);
+    json.insert("id", m_cell->id);
+    json.insert("msg", fileName);
 
+    m_tcpFileSocket->ConnectToServer(MyApp::m_strHostAddr, MyApp::m_nFilePort, m_cell->id);
+
+    m_nFileType = GetFile;
+    Q_EMIT signalSendMessage(GetFile, json);
 }
 
 void ChatWindow::on_toolButton_4_clicked()
@@ -422,7 +518,6 @@ QString ChatWindow::GetHeadPixmap(const QString &name) const
     return ":/resource/head/1.bmp";
 }
 
-// 插入表情
 void ChatWindow::on_toolButton_3_clicked()
 {
     QPoint p =  ui->toolButton_3->pos();
@@ -437,19 +532,19 @@ void ChatWindow::on_toolButton_3_clicked()
     } else {
         //点击了表情
         qDebug() << "selectFaceIndex:" << selectFaceIndex;
-        SendFaceMsg(selectFaceIndex);
+        sendFaceMsg(selectFaceIndex);
     }
 
 }
 
-void ChatWindow::SendFaceMsg(int faceIndex)
+void ChatWindow::sendFaceMsg(int faceInex)
 {
     // 构建json数据
     QJsonObject json;
     json.insert("id", MyApp::m_nId);
     json.insert("to", m_cell->id);
-    json.insert("face", faceIndex);
-    json.insert("type", Face);  //表情消息
+    json.insert("face", faceInex);
+    json.insert("type", Face); //表情消息
 
     // 发送消息
     Q_EMIT signalSendMessage(SendFace, json);
@@ -459,7 +554,7 @@ void ChatWindow::SendFaceMsg(int faceIndex)
     itemInfo->SetName(MyApp::m_strUserName);
     itemInfo->SetDatetime(DATE_TIME);
     itemInfo->SetHeadPixmap(MyApp::m_strHeadFile);
-    itemInfo->SetFace(faceIndex);
+    itemInfo->SetFace(faceInex);
     itemInfo->SetOrientation(Right);
     itemInfo->SetMsgType(Face); //设置表情消息
 

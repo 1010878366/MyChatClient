@@ -6,21 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>414</width>
-    <height>320</height>
+    <width>391</width>
+    <height>319</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>登录界面</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="images.qrc">
-    <normaloff>:/resource/background/app.png</normaloff>:/resource/background/app.png</iconset>
+   <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#page, QWidget#page_2 {
-	border: 1px solid #A5A6A8;
-	border-radius: 4px;
+   <string notr="true">QWidget#page,QWidget#page_2 {
+border: 1px solid #A5A6A8;
+border-radius:4px;
 }</string>
   </property>
   <widget class="AnimationStackedWidget" name="stackedWidget">
@@ -29,8 +25,11 @@
      <x>10</x>
      <y>10</y>
      <width>370</width>
-     <height>286</height>
+     <height>294</height>
     </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="currentIndex">
     <number>0</number>
@@ -100,7 +99,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="images.qrc">:/resource/images/robot.png</pixmap>
+           <pixmap resource="resource.qrc">:/resource/images/robot.png</pixmap>
           </property>
          </widget>
         </item>
@@ -119,15 +118,13 @@
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
           </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
           <property name="text">
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="images.qrc">
-            <normaloff>:/resource/common/ic_login_cfg.png</normaloff>:/resource/common/ic_login_cfg.png</iconset>
+           <iconset>
+            <normalon>:/resource/common/ic_login_cfg.png</normalon>
+           </iconset>
           </property>
          </widget>
         </item>
@@ -136,15 +133,13 @@
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
           </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
           <property name="text">
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="images.qrc">
-            <normaloff>:/resource/common/ic_min.png</normaloff>:/resource/common/ic_min.png</iconset>
+           <iconset>
+            <normalon>:/resource/common/ic_min.png</normalon>
+           </iconset>
           </property>
          </widget>
         </item>
@@ -153,15 +148,13 @@
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
           </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
           <property name="text">
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="images.qrc">
-            <normaloff>:/resource/common/ic_close_white.png</normaloff>:/resource/common/ic_close_white.png</iconset>
+           <iconset>
+            <normalon>:/resource/common/ic_close_white.png</normalon>
+           </iconset>
           </property>
          </widget>
         </item>
@@ -192,7 +185,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap resource="images.qrc">:/resource/background/logo.jpg</pixmap>
+           <pixmap resource="resource.qrc">:/resource/background/logo.jpg</pixmap>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -237,14 +230,14 @@
               </property>
               <property name="styleSheet">
                <string notr="true">QLabel#labelUserHead {
-	border: 1px solid #C9C9C9;
+border: 1px solid #C9C9C9;
 }</string>
               </property>
               <property name="text">
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap resource="images.qrc">:/resource/head/head-64.png</pixmap>
+               <pixmap resource="resource.qrc">:/resource/head/head-64.png</pixmap>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -281,10 +274,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>admin</string>
-                 </property>
-                 <property name="cursorPosition">
-                  <number>5</number>
+                  <string>milo</string>
                  </property>
                  <property name="placeholderText">
                   <string>用户名</string>
@@ -306,7 +296,7 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>123456</string>
+                  <string>milo</string>
                  </property>
                  <property name="echoMode">
                   <enum>QLineEdit::Password</enum>
@@ -421,9 +411,6 @@
         </property>
         <item>
          <widget class="QLabel" name="labelWinTitle_2">
-          <property name="styleSheet">
-           <string notr="true">color: #FFFFFF;</string>
-          </property>
           <property name="text">
            <string>登录配置</string>
           </property>
@@ -434,15 +421,13 @@
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
           </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
           <property name="text">
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="images.qrc">
-            <normaloff>:/resource/common/ic_min.png</normaloff>:/resource/common/ic_min.png</iconset>
+           <iconset>
+            <normalon>:/resource/common/ic_min.png</normalon>
+           </iconset>
           </property>
          </widget>
         </item>
@@ -451,15 +436,13 @@
           <property name="focusPolicy">
            <enum>Qt::NoFocus</enum>
           </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
           <property name="text">
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="images.qrc">
-            <normaloff>:/resource/common/ic_close_white.png</normaloff>:/resource/common/ic_close_white.png</iconset>
+           <iconset>
+            <normalon>:/resource/common/ic_close_white.png</normalon>
+           </iconset>
           </property>
          </widget>
         </item>
@@ -492,7 +475,7 @@
                <item row="0" column="1">
                 <widget class="QIPLineEdit" name="lineEditHostAddr">
                  <property name="text">
-                  <string>127.0.0.1</string>
+                  <string>192.168.1.1</string>
                  </property>
                 </widget>
                </item>
@@ -586,22 +569,22 @@
   <customwidget>
    <class>AnimationStackedWidget</class>
    <extends>QStackedWidget</extends>
-   <header location="global">animationstackedwidget.h</header>
+   <header>animationstackedwidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QIconLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">clineedit.h</header>
   </customwidget>
   <customwidget>
    <class>QIPLineEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">clineedit.h</header>
   </customwidget>
+  <customwidget>
+   <class>QIconLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">clineedit.h</header>
+  </customwidget>
  </customwidgets>
  <resources>
-  <include location="images.qrc"/>
+  <include location="resource.qrc"/>
  </resources>
  <connections/>
 </ui>

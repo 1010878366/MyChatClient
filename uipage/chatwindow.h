@@ -1,11 +1,10 @@
-﻿#ifndef CHATWINDOW_H
+#ifndef CHATWINDOW_H
 #define CHATWINDOW_H
 
 #include "customwidget.h"
 #include "clientsocket.h"
 #include "qqcell.h"
-#include"face/facedialog.h"
-
+#include "face/facedialog.h"
 #include <QStandardItemModel>
 #include <QTime>
 
@@ -42,9 +41,12 @@ protected:
 private:
     Ui::ChatWindow *ui;
 
-    // 用户相关信息保存
+    // 好友用户相关信息保存
     QQCell *m_cell;
     QStandardItemModel *m_model;
+
+    // 文件传输
+    ClientFileSocket *m_tcpFileSocket;
 
     // 文件传输
     QString          m_strFileName;
@@ -53,6 +55,7 @@ private:
     quint8          m_nFileType;
 
     quint8          m_nChatType;        // 聊天类型，群组聊天或私人聊天
+
 
 private slots:
     void SltChatMessage(const QString &text);
@@ -81,8 +84,8 @@ private:
     QString GetHeadPixmap(const QString &name) const;
 
     FaceDialog *m_faceDialog;
+    void sendFaceMsg(int faceInex);
 
-    void SendFaceMsg(int faceIndex);
 };
 
 #endif // CHATWINDOW_H

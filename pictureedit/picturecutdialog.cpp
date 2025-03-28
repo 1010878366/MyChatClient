@@ -4,6 +4,7 @@
 #include "myapp.h"
 
 #include <QFileDialog>
+#include <QDebug>
 
 
 PictureCutDialog::PictureCutDialog(QWidget *parent) :
@@ -97,6 +98,7 @@ void PictureCutDialog::SltCutDlgMoved(QRect rect)
  */
 void PictureCutDialog::on_btnSave_clicked()
 {
+    qDebug() << "----------on_btnSave_clicked---------------";
     if (NULL == pdialog) return;
 
     QPixmap pixmap = scaledPix.copy(pdialog->getShotGeometry()).scaled(64, 64);

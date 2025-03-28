@@ -1,4 +1,4 @@
-﻿#ifndef GLOBAL
+#ifndef GLOBAL
 #define GLOBAL
 
 #include <stdlib.h>
@@ -118,8 +118,6 @@ public:
         file.open(QIODevice::ReadOnly);
         qApp->setStyleSheet(file.readAll());
         file.close();
-
-
     }
 
 
@@ -134,6 +132,7 @@ public:
     //判断是否是IP地址
     static bool IsIP(QString IP)
     {
+        //(25[0-5]|2[0-4][0-9]|1?[0-9]{1,2})
         QRegExp RegExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
         return RegExp.exactMatch(IP);
     }
@@ -151,6 +150,7 @@ public:
         }
         return "";
     }
+
     // 获取文件的大小
     static QString GetFileSize(const QString &name) {
         QFileInfo fileInfo(MyApp::m_strRecvPath + name);
@@ -228,6 +228,7 @@ public:
             else
             {
                 if(mfi.fileName()=="." || mfi.fileName() == "..") continue;
+                //递归调用
                 CleanDirPath(mfi.absoluteFilePath());
             }
         }

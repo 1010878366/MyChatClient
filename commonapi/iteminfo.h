@@ -1,4 +1,4 @@
-﻿#ifndef ITEMINFO_H
+#ifndef ITEMINFO_H
 #define ITEMINFO_H
 
 #include <QtCore/qglobal.h>

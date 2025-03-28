@@ -1,4 +1,4 @@
-﻿#include "databasemagr.h"
+#include "databasemagr.h"
 
 #include <QDebug>
 
@@ -78,7 +78,7 @@ bool DataBaseMagr::OpenMessageDb(const QString &dataName)
 bool DataBaseMagr::isMyFriend(const int &userId, const QString &name)
 {
     QString strQuery = "SELECT [id] FROM FRIEND";
-    strQuery.append(QString("WHERE name=%1").arg(name));
+    strQuery.append(QString(" WHERE name=%1").arg(name));
     strQuery.append(QString(" AND userId=%1;").arg(QString::number(userId)));
 
     QSqlQuery query(strQuery, userdb);
@@ -86,11 +86,13 @@ bool DataBaseMagr::isMyFriend(const int &userId, const QString &name)
     return query.next();
 }
 
-QJsonArray DataBaseMagr::GetMyFriend(const int &userId)
+QJsonArray DataBaseMagr::GetMyFriend(const int &userId) const
 {
-    QJsonArray myFriends;
-    QString strQuery = "SELECT [id] FROM FRIEND";
-    strQuery.append(QString("WHERE userId=%1;").arg(QString::number(userId)));
+    QJsonArray  myFriends;
+
+    QString strQuery = "SELECT [id] FROM FRIEND ";
+    strQuery.append("WHERE userId=");
+    strQuery.append(QString::number(userId));
 
     QSqlQuery query(strQuery, userdb);
     while (query.next()) {
@@ -99,6 +101,7 @@ QJsonArray DataBaseMagr::GetMyFriend(const int &userId)
 
     return myFriends;
 }
+
 
 void DataBaseMagr::AddFriend(const int &friendId, const int &userId, const QString &name)
 {
@@ -246,3 +249,4 @@ void DataBaseMagr::AddGroup(const int &id, const int &userId, const QString &nam
 
     query.exec();
 }
+

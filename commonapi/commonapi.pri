@@ -1,16 +1,17 @@
-INCLUDEPATH     += $$PWD
-DEPENDPATH      += $$PWD
+INCLUDEPATH += $$PWD
+DEPENDPATH += $$PWD
+
 
 HEADERS += \
     $$PWD/global.h \
-    $$PWD/iteminfo.h \
     $$PWD/myapp.h \
-    $$PWD/qqcell.h \
     $$PWD/unit.h \
-
+    $$PWD/qqcell.h \
+    $$PWD/iteminfo.h
 
 
 SOURCES += \
-    $$PWD/iteminfo.cpp \
     $$PWD/myapp.cpp \
-    $$PWD/qqcell.cpp
+    $$PWD/qqcell.cpp \
+    $$PWD/iteminfo.cpp
+
